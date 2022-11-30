@@ -1,0 +1,57 @@
+.personal-info {
+  margin: 0 70px;
+  padding: 110px 0 100px 0;
+  display: flex;
+  justify-content: space-between;
+
+  &__container {
+    max-width: 600px;
+  }
+
+  &__name {
+    padding-bottom: 18px;
+    margin: 0;
+    font-weight: 400;
+    font-size: 50px;
+    line-height: 58px;
+    letter-spacing: -0.04em;
+    color: #FFF;
+  }
+
+  &__profession {
+    padding-bottom: 26px;
+    margin: 0;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 20px;
+    color: #FFF;
+    mix-blend-mode: normal;
+  }
+
+  &__about {
+    padding-bottom: 99px;
+    margin: 0;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    color: #FFFFFF;
+    mix-blend-mode: normal;
+  }
+
+  &__link {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #FFFFFF;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  &__photo {
+    max-width: 270px;
+    object-fit: contain;
+  }
+}
