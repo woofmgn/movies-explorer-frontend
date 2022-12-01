@@ -1,0 +1,43 @@
+.card {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+
+  &__preview {
+    padding-bottom: 10px;
+  }
+
+  &__wrapper {
+    padding-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #424242;
+  }
+
+  &__title {
+    margin: 0;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    color: #FFF;
+    align-self: center;
+  }
+
+  &__like-button {
+    width: 24px;
+    height: 24px;
+    background-image: url('../../images/like-button.svg');
+    background-color: transparent;
+    border: none;
+    background-repeat: no-repeat;
+  }
+
+  &__duration {
+    margin: 6px 0 0 0;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    display: flex;
+    color: #8B8B8B;
+  }
+}
