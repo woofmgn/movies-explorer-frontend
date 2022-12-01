@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import NavBar from '../NavBar/NavBar';
 import './Header.scss';
 
 const Header = () => {
   return (
     <header className="header">
-      <Link className="header__logo" to="/" />
+      <NavBar />
       <nav className="header__navigation">
         <ul className="header__navigation-list">
           <li className="header__navigation-item">

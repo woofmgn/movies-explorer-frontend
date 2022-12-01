@@ -1,7 +1,9 @@
-import React from "react";
+import React from 'react';
+import SearchForm from '../../components/SearchForm/SearchForm';
+import './Movies.scss';
 
 const Movies = () => {
-  return <div>Movies</div>;
+  return <SearchForm />;
 };
 
 export default Movies;

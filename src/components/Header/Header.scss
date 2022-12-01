@@ -2,26 +2,12 @@
   display: flex;
   justify-content: space-between;
   background-color: #073042;
-  
-  &__logo {
-    display: flex;
-    max-width: 38px;
-    width: 100%;
-    background-image: url(../../images/logo.svg);
-    margin-left: 70px;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
-
-    &:hover {
-      opacity: 0.7;
-    }
-  }
 
   &__navigation {
     padding: 18px 70px 18px 0;
-    display: flex;
+    // display: flex;
     align-items: center;
+    display: none;
   }
 
   &__navigation-list {
