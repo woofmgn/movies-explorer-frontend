@@ -3,6 +3,10 @@
   display: flex;
   flex-direction: column;
 
+  // &:hover {
+  //   cursor: pointer;
+  // }
+
   &__preview {
     padding-bottom: 10px;
   }
@@ -23,13 +27,19 @@
     align-self: center;
   }
 
-  &__like-button {
+  &__button {
     width: 24px;
     height: 24px;
     background-image: url('../../images/like-button.svg');
     background-color: transparent;
     border: none;
     background-repeat: no-repeat;
+    cursor: pointer;
+
+    &_type_remove {
+      visibility: hidden;
+      background-image: url('../../images/remove-button.svg');
+    }
   }
 
   &__duration {

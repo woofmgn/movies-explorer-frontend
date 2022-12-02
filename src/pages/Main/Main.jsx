@@ -8,13 +8,13 @@ import './Main.scss';
 
 const Main = () => {
   return (
-    <>
+    <main className="main">
       <Promo />
       <AboutProject />
       <Techs />
       <AboutMe />
       <Portfolio />
-    </>
+    </main>
   );
 };
 
