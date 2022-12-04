@@ -22,8 +22,8 @@ const MoviesCard = () => {
         <img className="card__preview" src={movie} alt="превью фильма" />
         <div
           className="card__wrapper"
-          onMouseEnter={onHover}
-          onMouseLeave={onExit}
+          onMouseEnter={location.pathname === '/movies' ? null : onHover}
+          onMouseLeave={location.pathname === '/movies' ? null : onExit}
         >
           <h5 className="card__title">Название</h5>
           <button

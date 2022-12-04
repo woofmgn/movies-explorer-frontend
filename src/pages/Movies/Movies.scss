@@ -14,4 +14,9 @@
   font-size: 12px;
   line-height: 15px;
   color: #FFF;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+  }
 }
