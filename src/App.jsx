@@ -1,6 +1,6 @@
-import { Route, Routes } from 'react-router-dom';
+import { useState } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
-import AboutProject from './components/AboutProject/AboutProject';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import Login from './pages/Login/Login';
@@ -11,19 +11,40 @@ import Register from './pages/Register/Register';
 import SavedMovies from './pages/SavedMovies/SavedMovies';
 
 function App() {
+  const [isLogged, setIsLogged] = useState(false);
+  let location = useLocation();
+
+  const handleToggleLoginStatus = () => {
+    setIsLogged((prev) => !prev);
+  };
+
   return (
     <>
-      <Header />
+      {location.pathname === '/' ||
+      location.pathname === '/movies' ||
+      location.pathname === '/saved-movies' ||
+      location.pathname === '/profile' ? (
+        <Header isLogged={isLogged} />
+      ) : null}
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/about-project" element={<AboutProject />} />
         <Route path="/movies" element={<Movies />} />
         <Route path="/saved-movies" element={<SavedMovies />} />
         <Route path="/signup" element={<Register />} />
-        <Route path="/signin" element={<Login />} />
+        <Route
+          path="/signin"
+          element={<Login />}
+          onToggleLoginStatus={handleToggleLoginStatus}
+          // хардкод для проверки изменения визуала хедера
+        />
         <Route path="/profile" element={<Profile />} />
       </Routes>
-      <Footer />
+
+      {location.pathname === '/' ||
+      location.pathname === '/movies' ||
+      location.pathname === '/saved-movies' ? (
+        <Footer />
+      ) : null}
     </>
   );
 }

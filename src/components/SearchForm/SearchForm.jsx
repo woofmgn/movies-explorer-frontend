@@ -13,19 +13,12 @@ const SearchForm = () => {
           />
           <button className="search-movies__button" type="submit" />
         </fieldset>
-        {/* <label className="search-movies__checkbox-wrapper">
-          <p className="search-movies__description">Короткометражки</p>
-          <input className="search-movies__checkbox" type="checkbox" />
-          <div class="toggler-slider">
-            <div class="toggler-knob"></div>
-          </div>
-        </label> */}
         <div className="search-movies__checkbox-wrapper">
           <p className="search-movies__description">Короткометражки</p>
-          <label className="toggler-wrapper style-1">
-            <input type="checkbox" />
-            <div className="toggler-slider">
-              <div className="toggler-knob"></div>
+          <label className="search-movies__label">
+            <input type="checkbox" className="search-movies__checkbox" />
+            <div className="search-movies__slider">
+              <div className="search-movies__knob"></div>
             </div>
           </label>
         </div>
