@@ -160,10 +160,12 @@
   .auth-header {
 
     &__link {
+      margin-bottom: 50px;
       align-self: center;
     }
 
     &__title {
+      margin-bottom: 80px;
       text-align: center;
     }
   }
@@ -171,6 +173,7 @@
   .auth-form {
 
     &__error {
+      margin-top: 6px;
       margin-bottom: 14px;
     }
 
@@ -180,9 +183,11 @@
 
     &__submit {
       margin-top: 157px;
+      font-size: 12px;
+      line-height: 15px;
 
       &_type_login {
-        margin-top: 267px;
+        margin-top: 233px;
       }
     }
   }

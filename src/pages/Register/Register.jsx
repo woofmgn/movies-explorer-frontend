@@ -28,7 +28,7 @@ const Register = () => {
             className="auth-form__input auth-form__input_type_password popup__form-item"
             type="password"
           />
-          <span className="auth-form__error">член</span>
+          <span className="auth-form__error"></span>
           <button className="auth-form__submit">Зарегистрироваться</button>
         </form>
         <p className="auth__subtitle">
