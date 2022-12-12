@@ -33,8 +33,7 @@ function App() {
         <Route path="/signup" element={<Register />} />
         <Route
           path="/signin"
-          element={<Login />}
-          onToggleLoginStatus={handleToggleLoginStatus}
+          element={<Login onToggleLoginStatus={handleToggleLoginStatus} />}
           // хардкод для проверки изменения визуала хедера
         />
         <Route path="/profile" element={<Profile />} />

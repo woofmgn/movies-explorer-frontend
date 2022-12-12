@@ -15,18 +15,21 @@ const Register = () => {
           <input
             className="auth-form__input auth-form__input_type_email popup__form-item"
             type="email"
+            required
           />
           <span className="auth-form__error"></span>
           <label className="auth-form__label">E-mail</label>
           <input
             className="auth-form__input auth-form__input_type_email popup__form-item"
             type="email"
+            required
           />
           <span className="auth-form__error"></span>
           <label className="auth-form__label">Пароль</label>
           <input
             className="auth-form__input auth-form__input_type_password popup__form-item"
             type="password"
+            required
           />
           <span className="auth-form__error"></span>
           <button className="auth-form__submit">Зарегистрироваться</button>
