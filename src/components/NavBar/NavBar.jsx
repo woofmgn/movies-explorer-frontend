@@ -6,10 +6,7 @@ const NavBar = () => {
   return (
     <nav className="navbar">
       <ul className="navbar__container">
-        <li className="navbar__item navbar__item_first">
-          <Link className="navbar__main-link" to="/" />
-        </li>
-        <li className="navbar__item navbar__item_type_center">
+        <li className="navbar__item navbar__item_type_first">
           <Link to="/movies" className="navbar__movies-link">
             Фильмы
           </Link>
@@ -19,11 +16,13 @@ const NavBar = () => {
             Сохранённые фильмы
           </Link>
         </li>
+        <li className="navbar__item navbar__item_last">
+          <Link className="navbar__profile-link" to="/profile">
+            Аккаунт
+            <div className="navbar__profile-image"></div>
+          </Link>
+        </li>
       </ul>
-      <Link className="navbar__profile-link" to="/profile">
-        Аккаунт
-        <div className="navbar__profile-image"></div>
-      </Link>
     </nav>
   );
 };

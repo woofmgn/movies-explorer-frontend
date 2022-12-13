@@ -35,6 +35,74 @@ const MoviesCard = () => {
         </div>
         <p className="card__duration">время</p>
       </li>
+      <li className="card">
+        <img className="card__preview" src={movie} alt="превью фильма" />
+        <div
+          className="card__wrapper"
+          onMouseEnter={location.pathname === '/movies' ? null : onHover}
+          onMouseLeave={location.pathname === '/movies' ? null : onExit}
+        >
+          <h5 className="card__title">Название</h5>
+          <button
+            ref={hover}
+            className={`card__button ${
+              location.pathname === '/movies' ? '' : 'card__button_type_remove'
+            }`}
+          />
+        </div>
+        <p className="card__duration">время</p>
+      </li>
+      <li className="card">
+        <img className="card__preview" src={movie} alt="превью фильма" />
+        <div
+          className="card__wrapper"
+          onMouseEnter={location.pathname === '/movies' ? null : onHover}
+          onMouseLeave={location.pathname === '/movies' ? null : onExit}
+        >
+          <h5 className="card__title">Название</h5>
+          <button
+            ref={hover}
+            className={`card__button ${
+              location.pathname === '/movies' ? '' : 'card__button_type_remove'
+            }`}
+          />
+        </div>
+        <p className="card__duration">время</p>
+      </li>
+      <li className="card">
+        <img className="card__preview" src={movie} alt="превью фильма" />
+        <div
+          className="card__wrapper"
+          onMouseEnter={location.pathname === '/movies' ? null : onHover}
+          onMouseLeave={location.pathname === '/movies' ? null : onExit}
+        >
+          <h5 className="card__title">Название</h5>
+          <button
+            ref={hover}
+            className={`card__button ${
+              location.pathname === '/movies' ? '' : 'card__button_type_remove'
+            }`}
+          />
+        </div>
+        <p className="card__duration">время</p>
+      </li>
+      <li className="card">
+        <img className="card__preview" src={movie} alt="превью фильма" />
+        <div
+          className="card__wrapper"
+          onMouseEnter={location.pathname === '/movies' ? null : onHover}
+          onMouseLeave={location.pathname === '/movies' ? null : onExit}
+        >
+          <h5 className="card__title">Название</h5>
+          <button
+            ref={hover}
+            className={`card__button ${
+              location.pathname === '/movies' ? '' : 'card__button_type_remove'
+            }`}
+          />
+        </div>
+        <p className="card__duration">время</p>
+      </li>
     </>
   );
 };

@@ -5,12 +5,12 @@ import './Header.scss';
 
 const Header = ({ isLogged }) => {
   return (
-    <header className="header">
+    <header className={`header ${isLogged ? 'header_theme_dark' : null}`}>
+      <Link className="header__main-link" to="/" />
       {isLogged ? (
         <NavBar />
       ) : (
         <>
-          <Link className="header__main-link" to="/" />
           <nav className="header__navigation">
             <ul className="header__navigation-list">
               <li className="header__navigation-item">
