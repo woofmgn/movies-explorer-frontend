@@ -14,6 +14,7 @@ function App() {
   const [isLogged, setIsLogged] = useState(false);
   let location = useLocation();
 
+  // хардкод для проверки изменения визуала хедера
   const handleToggleLoginStatus = () => {
     setIsLogged((prev) => !prev);
   };

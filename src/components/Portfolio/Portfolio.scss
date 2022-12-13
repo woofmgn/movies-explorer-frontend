@@ -1,5 +1,5 @@
 .portfolio {
-  margin: 0 70px 0 70px;
+  margin: 0 70px;
   display: flex;
   flex-direction: column;
 
@@ -37,4 +37,39 @@
     }
   }
 
+}
+
+@media screen and (max-width: 820px) {
+  .portfolio {
+    margin: 0 50px;
+
+    &__link {
+      margin-bottom: 21px;
+      padding-bottom: 19px;
+      border-bottom: 1px solid #E6E6E6;
+      font-size: 28px;
+      line-height: 50px;
+
+      &:last-of-type {
+        margin-bottom: 70px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .portfolio {
+    margin: 0 14px;
+
+    &__link {
+      margin-bottom: 21px;
+      padding-bottom: 19px;
+      font-size: 18px;
+      line-height: 28px;
+
+      &:last-of-type {
+        margin-bottom: 50px;
+      }
+    }
+  }
 }
