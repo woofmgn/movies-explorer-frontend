@@ -1,0 +1,121 @@
+.burger-button {
+  margin-right: 30px;
+  display: flex;
+  align-self: center;
+  width: 44px;
+  height: 44px;
+  background-image: url('../../images/burger-button.svg');
+  background-size: cover;
+  background-color: transparent;
+  border: none;
+}
+
+.burger-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  overflow: auto;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  background-color: rgba(0, 0, 0, .3);
+
+  &__close-button {
+    width: 22px;
+    height: 22px;
+    background-image: url('../../images/burger-close-button.svg');
+    background-color: transparent;
+    border: none;
+  }
+}
+
+.burger-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 67.8%;
+  height: 100vh;
+  background-color: #202020;
+
+  &__close-button {
+    margin: 22.44px 22.44px 0 0;
+    display: flex;
+    align-self: end;
+    width: 22px;
+    height: 22px;
+    background-image: url('../../images/burger-close-button.svg');
+    background-size: cover;
+    background-color: transparent;
+    border: none;
+  }
+
+  &__list {
+    margin: 105.44px 0 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    gap: 24px;
+    flex-grow: 1;
+  }
+
+  &__item {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__link {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    color: #FFFFFF;
+    
+    &_active {
+      padding-bottom: 4px;
+      border-bottom: 2px solid #FFF;
+    }
+  }
+}
+
+.profile-link_type_burger {
+  margin-bottom: 92px;
+  align-self: center;
+}
+
+@media screen and (max-width: 520px) {
+  .burger-button {
+    margin-right: 14px;
+    width: 40px;
+    height: 43px;
+  }
+
+  .burger-menu__close-button {
+    margin: 14px 14px 0 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .burger-menu {
+    width: 100%;
+
+    &__list {
+      margin-top: 99.44px;
+    }
+
+    &__link {
+      
+      &_active {
+        padding-bottom: 7px;
+        border-bottom: 2px solid #FFF;
+      }
+    }
+  }
+
+  .profile-link_type_burger {
+    margin-bottom: 48px;
+  }
+}
