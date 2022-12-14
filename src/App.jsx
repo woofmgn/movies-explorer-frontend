@@ -6,6 +6,7 @@ import Header from './components/Header/Header';
 import Login from './pages/Login/Login';
 import Main from './pages/Main/Main';
 import Movies from './pages/Movies/Movies';
+import PageNotFound from './pages/PageNotFound/PageNotFound';
 import Profile from './pages/Profile/Profile';
 import Register from './pages/Register/Register';
 import SavedMovies from './pages/SavedMovies/SavedMovies';
@@ -38,6 +39,7 @@ function App() {
           // хардкод для проверки изменения визуала хедера
         />
         <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
 
       {location.pathname === '/' ||
