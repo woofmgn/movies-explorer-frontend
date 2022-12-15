@@ -3,6 +3,25 @@
   display: flex;
   flex-direction: column;
 
+  &__link-container {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__link-item {
+    max-width: 100%;
+    list-style-type: none;
+    display: flex;
+
+    &:last-of-type {
+      border-bottom: none;
+      margin-bottom: 125px;
+    }
+  }
+
   &__title {
     padding-bottom: 50px;
     margin: 0;
@@ -14,6 +33,7 @@
   }
 
   &__link {
+    display: flex;
     margin-bottom: 21px;
     padding-bottom: 19px;
     border-bottom: 1px solid #424242;
@@ -26,11 +46,6 @@
     background-image: url('../../images/portfolio-link-image.svg');
     background-repeat: no-repeat;
     background-position: right 30%;
-
-    &:last-of-type {
-      border-bottom: none;
-      margin-bottom: 125px;
-    }
 
     &:hover {
       opacity: 0.7;
@@ -49,11 +64,11 @@
       border-bottom: 1px solid #E6E6E6;
       font-size: 28px;
       line-height: 50px;
-
-      &:last-of-type {
-        margin-bottom: 70px;
-      }
     }
+  }
+
+  .portfolit__link-item:last-of-type {
+    margin-bottom: 70px;
   }
 }
 
@@ -66,10 +81,10 @@
       padding-bottom: 19px;
       font-size: 18px;
       line-height: 28px;
-
-      &:last-of-type {
-        margin-bottom: 50px;
-      }
     }
+  }
+
+  .portfolit__link-item:last-of-type {
+    margin-bottom: 50px;
   }
 }

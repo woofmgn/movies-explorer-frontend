@@ -10,6 +10,7 @@ const SearchForm = () => {
             className="search-movies__input"
             type="text"
             placeholder="Фильм"
+            required
           />
           <button className="search-movies__button" type="submit" />
         </fieldset>

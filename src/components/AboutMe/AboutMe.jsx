@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import personalPhoto from '../../images/personal-foto.png';
 import './AboutMe.scss';
 
@@ -20,9 +19,14 @@ const AboutMe = () => {
             Контур». После того, как прошёл курс по веб-разработке, начал
             заниматься фриланс-заказами и ушёл с постоянной работы.
           </p>
-          <Link to="https://github.com/woofmgn" className="personal-info__link">
+          <a
+            className="personal-info__link"
+            href="https://github.com/woofmgn"
+            target="_blank"
+            rel="noreferrer"
+          >
             GitHub
-          </Link>
+          </a>
         </div>
         <img
           src={personalPhoto}

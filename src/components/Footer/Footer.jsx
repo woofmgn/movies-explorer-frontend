@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './Footer.scss';
 
 const Footer = () => {
@@ -12,14 +11,24 @@ const Footer = () => {
         <p className="footer__copyright">© 2022</p>
         <ul className="footer__links-container">
           <li className="footer__link-wrapper">
-            <Link to="https://practicum.yandex.ru" className="footer__link">
+            <a
+              className="footer__link"
+              href="https://practicum.yandex.ru"
+              target="_blank"
+              rel="noreferrer"
+            >
               Яндекс.Практикум
-            </Link>
+            </a>
           </li>
           <li className="footer__link-wrapper">
-            <Link to="https://github.com/woofmgn" className="footer__link">
+            <a
+              className="footer__link"
+              href="https://github.com/woofmgn"
+              target="_blank"
+              rel="noreferrer"
+            >
               GitHub
-            </Link>
+            </a>
           </li>
         </ul>
       </div>

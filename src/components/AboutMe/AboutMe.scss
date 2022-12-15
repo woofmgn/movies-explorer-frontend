@@ -3,6 +3,7 @@
   padding: 110px 0 100px 0;
   display: flex;
   justify-content: space-between;
+  gap: 49px;
 
   &__container {
     max-width: 600px;
@@ -102,11 +103,12 @@
   }
 }
 
-@media screen and (max-width: 560px) {
+@media screen and (max-width: 650px) {
   .personal-info {
     margin: 0 14px;
     padding: 60px 0 91px 0;
     flex-wrap: wrap;
+    gap: 0;
 
     &__container {
       margin-top: 40px;
