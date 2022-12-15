@@ -9,7 +9,7 @@ const Portfolio = () => {
         <li className="portfolit__link-item">
           <a
             className="portfolio__link"
-            href="http://www.github.com/woofmgn/how-to-learn"
+            href="https://github.com/woofmgn/how-to-learn"
             target="_blank"
             rel="noreferrer"
           >
@@ -19,7 +19,7 @@ const Portfolio = () => {
         <li className="portfolit__link-item">
           <a
             className="portfolio__link"
-            href="http://www.russian-travel-deploy.vercel.app/"
+            href="https://russian-travel-deploy.vercel.app/"
             target="_blank"
             rel="noreferrer"
           >
@@ -29,7 +29,7 @@ const Portfolio = () => {
         <li className="portfolit__link-item">
           <a
             className="portfolio__link"
-            href="http://www.vden.mesto.nomoredomains.icu/"
+            href="https://vden.mesto.nomoredomains.icu/"
             target="_blank"
             rel="noreferrer"
           >
