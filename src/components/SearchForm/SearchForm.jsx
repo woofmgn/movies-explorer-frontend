@@ -1,10 +1,14 @@
 import React from 'react';
 import './SearchForm.scss';
 
-const SearchForm = () => {
+const SearchForm = ({ onGetApiMovies }) => {
+  const handlerSumbit = (evt) => {
+    evt.preventDefault();
+    onGetApiMovies();
+  };
   return (
     <section className="search-form">
-      <form className="search-movies">
+      <form className="search-movies" onSubmit={handlerSumbit}>
         <fieldset className="search-movies__wrapper">
           <input
             className="search-movies__input"

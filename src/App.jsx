@@ -13,6 +13,7 @@ import SavedMovies from './pages/SavedMovies/SavedMovies';
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);
+
   let location = useLocation();
 
   // хардкод для проверки изменения визуала хедера
