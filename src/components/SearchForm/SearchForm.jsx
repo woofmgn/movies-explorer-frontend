@@ -1,22 +1,41 @@
 import React from 'react';
+import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './SearchForm.scss';
 
 const SearchForm = ({ onGetApiMovies }) => {
+  const {
+    values,
+    handleChange,
+    errors,
+    isValid,
+    resetForm,
+    setValues,
+    setIsValid,
+  } = useFormAndValidation();
+
   const handlerSumbit = (evt) => {
     evt.preventDefault();
     onGetApiMovies();
   };
   return (
     <section className="search-form">
-      <form className="search-movies" onSubmit={handlerSumbit}>
+      <form className="form search-movies" onSubmit={handlerSumbit}>
         <fieldset className="search-movies__wrapper">
           <input
             className="search-movies__input"
             type="text"
+            name="search"
             placeholder="Фильм"
             required
+            value={values.search || ''}
+            onChange={handleChange}
           />
-          <button className="search-movies__button" type="submit" />
+          {/* <span className="auth-form__error">{errors.search}</span> */}
+          <button
+            className="search-movies__button"
+            type="submit"
+            disabled={!isValid}
+          />
         </fieldset>
         <div className="search-movies__checkbox-wrapper">
           <p className="search-movies__description">Короткометражки</p>
