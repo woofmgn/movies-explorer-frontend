@@ -1,21 +1,21 @@
-import React from 'react';
-import { useFormAndValidation } from '../../hooks/useFormAndValidation';
+import { useState } from 'react';
+// import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './SearchForm.scss';
 
-const SearchForm = ({ onGetApiMovies }) => {
-  const {
-    values,
-    handleChange,
-    errors,
-    isValid,
-    resetForm,
-    setValues,
-    setIsValid,
-  } = useFormAndValidation();
+const SearchForm = ({ isChecked, onToggleCheckbox, onSearchMovies }) => {
+  const [isSearch, setSearch] = useState('');
+
+  const handleToggleCheckbox = () => {
+    onToggleCheckbox();
+  };
+
+  const handleChangleInput = (evt) => {
+    setSearch(evt.target.value);
+  };
 
   const handlerSumbit = (evt) => {
     evt.preventDefault();
-    onGetApiMovies();
+    onSearchMovies(isSearch);
   };
   return (
     <section className="search-form">
@@ -27,20 +27,26 @@ const SearchForm = ({ onGetApiMovies }) => {
             name="search"
             placeholder="Фильм"
             required
-            value={values.search || ''}
-            onChange={handleChange}
+            // value={values.search && isSearch}
+            value={isSearch || ''}
+            onChange={handleChangleInput}
           />
           {/* <span className="auth-form__error">{errors.search}</span> */}
           <button
             className="search-movies__button"
             type="submit"
-            disabled={!isValid}
+            // disabled={!isValid}
           />
         </fieldset>
         <div className="search-movies__checkbox-wrapper">
           <p className="search-movies__description">Короткометражки</p>
           <label className="search-movies__label">
-            <input type="checkbox" className="search-movies__checkbox" />
+            <input
+              type="checkbox"
+              className="search-movies__checkbox"
+              checked={isChecked}
+              onChange={handleToggleCheckbox}
+            />
             <div className="search-movies__slider">
               <div className="search-movies__knob"></div>
             </div>

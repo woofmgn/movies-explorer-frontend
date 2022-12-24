@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
 import MoviesCardList from '../../components/MoviesCardList/MoviesCardList';
 import SearchForm from '../../components/SearchForm/SearchForm';
-import { apiMovies } from '../../utils/MoviesApi';
 import './Movies.scss';
 
-const Movies = () => {
-  const [movies, setMovies] = useState([]);
-
-  const getApiMovies = () => {
-    apiMovies.getMovies().then((res) => setMovies(() => res));
+const Movies = ({ movies, isChecked, onToggleCheckbox, onSearchMovies }) => {
+  const handlerGetApiMovies = () => {
+    // onGetApiMovies();
   };
 
   return (
     <main className="movies-page">
-      <SearchForm onGetApiMovies={getApiMovies} />
-      <MoviesCardList />
+      <SearchForm
+        isChecked={isChecked}
+        onToggleCheckbox={onToggleCheckbox}
+        onSearchMovies={onSearchMovies}
+      />
+      <MoviesCardList movies={movies} />
       <button className="more-button">Ещё</button>
     </main>
   );
