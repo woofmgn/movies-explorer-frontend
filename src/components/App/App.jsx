@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
 import Login from '../../pages/Login/Login';
@@ -52,9 +52,6 @@ function App() {
     setIsFilteredMovies(filteredMovies);
   };
 
-  useEffect(() => {
-    handleGetApiMovies();
-  }, []);
   return (
     <>
       {location.pathname === '/' ||
@@ -70,7 +67,7 @@ function App() {
           element={
             <Movies
               onGetApiMovies={handleGetApiMovies}
-              movies={movies}
+              movies={isFilteredMovies}
               isChecked={isChecked}
               onToggleCheckbox={handleToggleCheckbox}
               onSearchMovies={handleSearchMovies}

@@ -1,11 +1,22 @@
+import { useEffect } from 'react';
 import MoviesCardList from '../../components/MoviesCardList/MoviesCardList';
 import SearchForm from '../../components/SearchForm/SearchForm';
 import './Movies.scss';
 
-const Movies = ({ movies, isChecked, onToggleCheckbox, onSearchMovies }) => {
+const Movies = ({
+  movies,
+  isChecked,
+  onToggleCheckbox,
+  onSearchMovies,
+  onGetApiMovies,
+}) => {
   const handlerGetApiMovies = () => {
-    // onGetApiMovies();
+    onGetApiMovies();
   };
+
+  useEffect(() => {
+    handlerGetApiMovies();
+  });
 
   return (
     <main className="movies-page">
