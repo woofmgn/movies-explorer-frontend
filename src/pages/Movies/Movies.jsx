@@ -9,9 +9,14 @@ const Movies = ({
   onToggleCheckbox,
   onSearchMovies,
   onGetApiMovies,
+  onPaginateMovies,
 }) => {
   const handlerGetApiMovies = () => {
     onGetApiMovies();
+  };
+
+  const handlerPagitateMovies = () => {
+    onPaginateMovies();
   };
 
   useEffect(() => {
@@ -26,7 +31,9 @@ const Movies = ({
         onSearchMovies={onSearchMovies}
       />
       <MoviesCardList movies={movies} />
-      <button className="more-button">Ещё</button>
+      <button className="more-button" onClick={handlerPagitateMovies}>
+        Ещё
+      </button>
     </main>
   );
 };

@@ -20,6 +20,7 @@ function App() {
   const [isChecked, setIsChecked] = useState(false);
   const [searchedMovies, setSearchedMovies] = useState('');
   const [isFilteredMovies, setIsFilteredMovies] = useState([]);
+  const [slicedMovies, setSlicedMovies] = useState([]);
 
   const handleGetApiMovies = () => {
     apiMovies.getMovies().then((res) => {
@@ -41,6 +42,18 @@ function App() {
     setIsLogged((prev) => !prev);
   };
 
+  const getStartSliceMovies = (slicedArr) => {
+    const newArr = slicedArr.slice(0, 4);
+    setSlicedMovies(newArr);
+  };
+
+  const handlePaginationMovies = () => {
+    const endMoviesList = slicedMovies.length;
+    const newLength = slicedMovies.length + 4;
+    const newArr = isFilteredMovies.slice(endMoviesList, newLength);
+    setSlicedMovies([...slicedMovies, ...newArr]);
+  };
+
   const filteredReqMovies = (data) => {
     const filteredMovies = movies.filter((item) => {
       return (
@@ -50,6 +63,7 @@ function App() {
     });
     moviesStorage.setDataStorage(filteredMovies);
     setIsFilteredMovies(filteredMovies);
+    getStartSliceMovies(filteredMovies);
   };
 
   return (
@@ -67,10 +81,11 @@ function App() {
           element={
             <Movies
               onGetApiMovies={handleGetApiMovies}
-              movies={isFilteredMovies}
+              movies={slicedMovies}
               isChecked={isChecked}
               onToggleCheckbox={handleToggleCheckbox}
               onSearchMovies={handleSearchMovies}
+              onPaginateMovies={handlePaginationMovies}
             />
           }
         />
