@@ -2,27 +2,13 @@ import { Link } from 'react-router-dom';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './Register.scss';
 
-const Register = () => {
-  const {
-    values,
-    handleChange,
-    errors,
-    isValid,
-    resetForm,
-    setValues,
-    setIsValid,
-  } = useFormAndValidation();
+const Register = ({ onRegisterUser }) => {
+  const { values, handleChange, errors, isValid } = useFormAndValidation();
 
-  // const [isName, setIsName] = useState('');
-  // const [isPassword, setIsPassword] = useState('');
-
-  // const
-
-  // const handleChangeInput = (evt) => {
-  //   handleChange(evt);
-  //   setIsName(() => values.name);
-  //   setIsPassword(() => values.password);
-  // };
+  const handlerSubmitRegister = (evt) => {
+    evt.preventDefault();
+    onRegisterUser(values.name, values.email, values.password);
+  };
 
   return (
     <main className="main main_type_user-profile">
@@ -31,7 +17,10 @@ const Register = () => {
           <Link to="/" className="auth-header__link" />
           <h3 className="auth-header__title">Добро пожаловать</h3>
         </div>
-        <form className="form auth-form auth-form__registration">
+        <form
+          className="form auth-form auth-form__registration"
+          onSubmit={handlerSubmitRegister}
+        >
           <label className="auth-form__label">Имя</label>
           <input
             className="auth-form__input auth-form__input_type_email popup__form-item"

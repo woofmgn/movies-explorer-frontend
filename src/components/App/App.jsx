@@ -106,7 +106,7 @@ function App() {
     const token = jwtToken.getDataStorage();
     if (token) {
       try {
-        const res = await authApi.checkToken();
+        const res = await authApi.checkToken(token);
         setIsLogged((prev) => !prev);
         setUserInfo({
           name: res.name,
@@ -120,9 +120,31 @@ function App() {
     }
   };
 
-  const handleRegistration = (name, emain, password) => {};
+  const handleRegistrationUser = async (name, email, password) => {
+    try {
+      await authApi.register(name, email, password);
+      navigate('/signin');
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  useEffect(() => {}, []);
+  const handleAuthorizationUser = async (email, password) => {
+    try {
+      const res = await authApi.login(email, password);
+      if (res.token) {
+        jwtToken.setDataStorage(res.token);
+        setIsLogged(() => true);
+        navigate('/movies');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    handleChechToken();
+  }, []);
 
   return (
     <>
@@ -152,8 +174,14 @@ function App() {
           }
         />
         <Route path="/saved-movies" element={<SavedMovies />} />
-        <Route path="/signup" element={<Register />} />
-        <Route path="/signin" element={<Login />} />
+        <Route
+          path="/signup"
+          element={<Register onRegisterUser={handleRegistrationUser} />}
+        />
+        <Route
+          path="/signin"
+          element={<Login onAuthUser={handleAuthorizationUser} />}
+        />
         <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>

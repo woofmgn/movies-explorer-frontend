@@ -1,26 +1,15 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './Login.scss';
 
-const Login = () => {
-  const navigate = useNavigate();
+const Login = ({ onAuthUser }) => {
+  const { values, handleChange, errors, isValid } = useFormAndValidation();
 
-  const {
-    values,
-    handleChange,
-    errors,
-    isValid,
-    resetForm,
-    setValues,
-    setIsValid,
-  } = useFormAndValidation();
-
-  // const handleTogleLoginStatus = (evt) => {
-  //   evt.preventDefault();
-  //   onToggleLoginStatus();
-  //   navigate('/movies');
-  // };
+  const handlerSubmitAuthUser = (evt) => {
+    evt.preventDefault();
+    onAuthUser(values.email, values.password);
+  };
 
   return (
     <main className="main main_type_user-profile">
@@ -31,7 +20,7 @@ const Login = () => {
         </div>
         <form
           className="form auth-form auth-form__registration"
-          // onSubmit={handleTogleLoginStatus}
+          onSubmit={handlerSubmitAuthUser}
         >
           <label className="auth-form__label">E-mail</label>
           <input
