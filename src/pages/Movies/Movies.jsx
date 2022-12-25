@@ -6,12 +6,14 @@ import './Movies.scss';
 const Movies = ({
   movies,
   isChecked,
+  isLoading,
+  moviesInStorage,
+  prevSearch,
   onToggleCheckbox,
   onSearchMovies,
   onGetApiMovies,
   onPaginateMovies,
-  isLoading,
-  moviesInStorage,
+  onGetStorageData,
 }) => {
   const handlerGetApiMovies = () => {
     onGetApiMovies();
@@ -23,21 +25,24 @@ const Movies = ({
 
   useEffect(() => {
     handlerGetApiMovies();
+    onGetStorageData();
   }, []);
 
   return (
     <main className="movies-page">
       <SearchForm
         isChecked={isChecked}
+        prevSearch={prevSearch}
         onToggleCheckbox={onToggleCheckbox}
         onSearchMovies={onSearchMovies}
       />
       <MoviesCardList movies={movies} isLoading={isLoading} />
-      {moviesInStorage.length > 4 && (
-        <button className="more-button" onClick={handlerPagitateMovies}>
-          Ещё
-        </button>
-      )}
+      {moviesInStorage.length !== movies.length &&
+        moviesInStorage.length > 4 && (
+          <button className="more-button" onClick={handlerPagitateMovies}>
+            Ещё
+          </button>
+        )}
     </main>
   );
 };

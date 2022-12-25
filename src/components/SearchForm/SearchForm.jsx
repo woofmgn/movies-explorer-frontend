@@ -2,7 +2,12 @@ import { useState } from 'react';
 // import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './SearchForm.scss';
 
-const SearchForm = ({ isChecked, onToggleCheckbox, onSearchMovies }) => {
+const SearchForm = ({
+  isChecked,
+  prevSearch,
+  onToggleCheckbox,
+  onSearchMovies,
+}) => {
   const [isSearch, setSearch] = useState('');
 
   const handleToggleCheckbox = () => {
@@ -28,7 +33,7 @@ const SearchForm = ({ isChecked, onToggleCheckbox, onSearchMovies }) => {
             placeholder="Фильм"
             required
             // value={values.search && isSearch}
-            value={isSearch || ''}
+            value={isSearch || prevSearch || ''}
             onChange={handleChangleInput}
           />
           {/* <span className="auth-form__error">{errors.search}</span> */}

@@ -9,7 +9,11 @@ import Profile from '../../pages/Profile/Profile';
 import Register from '../../pages/Register/Register';
 import SavedMovies from '../../pages/SavedMovies/SavedMovies';
 import { apiMovies } from '../../utils/MoviesApi';
-import { moviesStorage } from '../../utils/storage';
+import {
+  checkboxStatus,
+  moviesStorage,
+  searchReqStorage,
+} from '../../utils/storage';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 
@@ -42,6 +46,8 @@ function App() {
   const handleSearchMovies = (data) => {
     setSearchedMovies(data);
     filteredReqMovies(data);
+    searchReqStorage.setDataStorage(data);
+    checkboxStatus.setDataStorage(isChecked);
   };
 
   // хардкод для проверки изменения визуала хедера
@@ -73,6 +79,22 @@ function App() {
     getStartSliceMovies(filteredMovies);
   };
 
+  const handleGetStorageData = async () => {
+    const movies = await moviesStorage.getDataStorage();
+    const chechbox = await checkboxStatus.getDataStorage();
+    const searchReq = await searchReqStorage.getDataStorage();
+    if (movies) {
+      setIsFilteredMovies(movies);
+    }
+    if (chechbox) {
+      setIsChecked(() => chechbox);
+    }
+    if (searchReq) {
+      setSearchedMovies(searchReq);
+    }
+    getStartSliceMovies(movies);
+  };
+
   return (
     <>
       {location.pathname === '/' ||
@@ -87,14 +109,16 @@ function App() {
           path="/movies"
           element={
             <Movies
-              onGetApiMovies={handleGetApiMovies}
               movies={slicedMovies}
               isChecked={isChecked}
               isLoading={isLoading}
+              prevSearch={searchedMovies}
               moviesInStorage={isFilteredMovies}
+              onGetApiMovies={handleGetApiMovies}
               onToggleCheckbox={handleToggleCheckbox}
               onSearchMovies={handleSearchMovies}
               onPaginateMovies={handlePaginationMovies}
+              onGetStorageData={handleGetStorageData}
             />
           }
         />
