@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 import Login from '../../pages/Login/Login';
 import Main from '../../pages/Main/Main';
@@ -8,9 +8,11 @@ import PageNotFound from '../../pages/PageNotFound/PageNotFound';
 import Profile from '../../pages/Profile/Profile';
 import Register from '../../pages/Register/Register';
 import SavedMovies from '../../pages/SavedMovies/SavedMovies';
+import { authApi } from '../../utils/Auth';
 import { apiMovies } from '../../utils/MoviesApi';
 import {
   checkboxStatus,
+  jwtToken,
   moviesStorage,
   searchReqStorage,
 } from '../../utils/storage';
@@ -19,6 +21,7 @@ import Header from '../Header/Header';
 
 function App() {
   let location = useLocation();
+  const navigate = useNavigate();
   const [isLogged, setIsLogged] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [movies, setMovies] = useState([]);
@@ -26,6 +29,7 @@ function App() {
   const [searchedMovies, setSearchedMovies] = useState('');
   const [isFilteredMovies, setIsFilteredMovies] = useState([]);
   const [slicedMovies, setSlicedMovies] = useState([]);
+  const [userInfo, setUserInfo] = useState({});
 
   const handleGetApiMovies = async () => {
     setIsLoading((prev) => !prev);
@@ -51,9 +55,9 @@ function App() {
   };
 
   // хардкод для проверки изменения визуала хедера
-  const handleToggleLoginStatus = () => {
-    setIsLogged((prev) => !prev);
-  };
+  // const handleToggleLoginStatus = () => {
+  //   setIsLogged((prev) => !prev);
+  // };
 
   const getStartSliceMovies = (slicedArr) => {
     const newArr = slicedArr.slice(0, 4);
@@ -69,10 +73,13 @@ function App() {
 
   const filteredReqMovies = (data) => {
     const filteredMovies = movies.filter((item) => {
-      return (
-        item.nameRU.toLowerCase().includes(data.toLowerCase()) ||
-        item.nameEN.toLowerCase().includes(data.toLowerCase())
-      );
+      const titleRU = item.nameRU.toLowerCase().includes(data.toLowerCase());
+      const titleEN = item.nameEN.toLowerCase().includes(data.toLowerCase());
+      if (isChecked && item.duration <= 40) {
+        return titleRU || titleEN;
+      } else if (!isChecked && item.duration > 40) {
+        return titleRU || titleEN;
+      }
     });
     moviesStorage.setDataStorage(filteredMovies);
     setIsFilteredMovies(filteredMovies);
@@ -94,6 +101,28 @@ function App() {
     }
     getStartSliceMovies(movies);
   };
+
+  const handleChechToken = async () => {
+    const token = jwtToken.getDataStorage();
+    if (token) {
+      try {
+        const res = await authApi.checkToken();
+        setIsLogged((prev) => !prev);
+        setUserInfo({
+          name: res.name,
+          email: res.email,
+        });
+        navigate('/movies');
+      } catch (err) {
+        console.log(err);
+        navigate('/signin');
+      }
+    }
+  };
+
+  const handleRegistration = (name, emain, password) => {};
+
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -124,11 +153,7 @@ function App() {
         />
         <Route path="/saved-movies" element={<SavedMovies />} />
         <Route path="/signup" element={<Register />} />
-        <Route
-          path="/signin"
-          element={<Login onToggleLoginStatus={handleToggleLoginStatus} />}
-          // хардкод для проверки изменения визуала хедера
-        />
+        <Route path="/signin" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>

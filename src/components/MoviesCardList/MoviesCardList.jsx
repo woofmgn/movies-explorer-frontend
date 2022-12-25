@@ -10,7 +10,7 @@ const MoviesCardList = ({ movies, isLoading }) => {
 
   return (
     <section className="movies">
-      {movies.length !== 0 ? (
+      {movies && movies.length !== 0 ? (
         <ul
           className={`movies-list ${
             location.pathname === '/saved-movies'

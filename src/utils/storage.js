@@ -18,5 +18,6 @@ class Storage {
 const moviesStorage = new Storage('movies');
 const searchReqStorage = new Storage('searchReq');
 const checkboxStatus = new Storage('checkboxReq');
+const jwtToken = new Storage('token');
 
-export { moviesStorage, searchReqStorage, checkboxStatus };
+export { moviesStorage, searchReqStorage, checkboxStatus, jwtToken };

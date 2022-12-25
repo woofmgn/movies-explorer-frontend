@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './Register.scss';
@@ -13,6 +12,17 @@ const Register = () => {
     setValues,
     setIsValid,
   } = useFormAndValidation();
+
+  // const [isName, setIsName] = useState('');
+  // const [isPassword, setIsPassword] = useState('');
+
+  // const
+
+  // const handleChangeInput = (evt) => {
+  //   handleChange(evt);
+  //   setIsName(() => values.name);
+  //   setIsPassword(() => values.password);
+  // };
 
   return (
     <main className="main main_type_user-profile">
