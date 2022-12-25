@@ -10,6 +10,8 @@ const Movies = ({
   onSearchMovies,
   onGetApiMovies,
   onPaginateMovies,
+  isLoading,
+  moviesInStorage,
 }) => {
   const handlerGetApiMovies = () => {
     onGetApiMovies();
@@ -21,7 +23,7 @@ const Movies = ({
 
   useEffect(() => {
     handlerGetApiMovies();
-  });
+  }, []);
 
   return (
     <main className="movies-page">
@@ -30,10 +32,12 @@ const Movies = ({
         onToggleCheckbox={onToggleCheckbox}
         onSearchMovies={onSearchMovies}
       />
-      <MoviesCardList movies={movies} />
-      <button className="more-button" onClick={handlerPagitateMovies}>
-        Ещё
-      </button>
+      <MoviesCardList movies={movies} isLoading={isLoading} />
+      {moviesInStorage.length > 4 && (
+        <button className="more-button" onClick={handlerPagitateMovies}>
+          Ещё
+        </button>
+      )}
     </main>
   );
 };

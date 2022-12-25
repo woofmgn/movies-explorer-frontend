@@ -16,16 +16,23 @@ import Header from '../Header/Header';
 function App() {
   let location = useLocation();
   const [isLogged, setIsLogged] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [movies, setMovies] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
   const [searchedMovies, setSearchedMovies] = useState('');
   const [isFilteredMovies, setIsFilteredMovies] = useState([]);
   const [slicedMovies, setSlicedMovies] = useState([]);
 
-  const handleGetApiMovies = () => {
-    apiMovies.getMovies().then((res) => {
+  const handleGetApiMovies = async () => {
+    setIsLoading((prev) => !prev);
+    try {
+      const res = await apiMovies.getMovies();
       setMovies(() => res);
-    });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading((prev) => !prev);
+    }
   };
 
   const handleToggleCheckbox = () => {
@@ -83,6 +90,8 @@ function App() {
               onGetApiMovies={handleGetApiMovies}
               movies={slicedMovies}
               isChecked={isChecked}
+              isLoading={isLoading}
+              moviesInStorage={isFilteredMovies}
               onToggleCheckbox={handleToggleCheckbox}
               onSearchMovies={handleSearchMovies}
               onPaginateMovies={handlePaginationMovies}
