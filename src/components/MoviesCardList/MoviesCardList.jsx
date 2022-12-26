@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
@@ -11,8 +11,13 @@ const MoviesCardList = ({
   onLikeMovie,
   userMovies,
   onGetSavedMovies,
+  onDislikeMovies,
 }) => {
   let location = useLocation();
+
+  useEffect(() => {
+    onGetSavedMovies();
+  }, []);
 
   return (
     <section className="movies">
@@ -34,6 +39,9 @@ const MoviesCardList = ({
                   key={item.id}
                   movieData={{ ...item }}
                   onLikeMovie={onLikeMovie}
+                  movieId={userMovies.movieId}
+                  userMovies={userMovies}
+                  onDislikeMovies={onDislikeMovies}
                 />
               );
             })
@@ -45,6 +53,9 @@ const MoviesCardList = ({
                   movieData={{ ...savedMovie }}
                   onLikeMovie={onLikeMovie}
                   onGetSavedMovies={onGetSavedMovies}
+                  movieId={userMovies.movieId}
+                  userMovies={userMovies}
+                  onDislikeMovies={onDislikeMovies}
                 />
               );
             })

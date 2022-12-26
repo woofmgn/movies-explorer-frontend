@@ -34,14 +34,14 @@ function App() {
   const [savedUserMovies, setSavedUserMovies] = useState([]);
 
   const handleGetApiMovies = async () => {
-    setIsLoading((prev) => !prev);
+    setIsLoading(() => true);
     try {
       const res = await apiMovies.getMovies();
       setMovies(() => res);
     } catch (err) {
       console.log(err);
     } finally {
-      setIsLoading((prev) => !prev);
+      setIsLoading(() => false);
     }
   };
 
@@ -123,6 +123,14 @@ function App() {
     }
   };
 
+  const handleDislikeMovies = async (id) => {
+    try {
+      await savedMoviesApi.deleteMovie(id);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleChechToken = async () => {
     const token = jwtToken.getDataStorage();
     if (token) {
@@ -196,6 +204,9 @@ function App() {
               onPaginateMovies={handlePaginationMovies}
               onGetStorageData={handleGetStorageData}
               onLikeMovie={handleLikeMovies}
+              onGetSavedMovies={handleGetSavedMovies}
+              userMovies={savedUserMovies}
+              onDislikeMovies={handleDislikeMovies}
             />
           }
         />
@@ -205,6 +216,7 @@ function App() {
             <SavedMovies
               userMovies={savedUserMovies}
               onGetSavedMovies={handleGetSavedMovies}
+              onDislikeMovies={handleDislikeMovies}
             />
           }
         />

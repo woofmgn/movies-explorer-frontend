@@ -1,8 +1,15 @@
-import React, { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.scss';
 
-const MoviesCard = ({ movieData, onLikeMovie, onGetSavedMovies }) => {
+const MoviesCard = ({
+  movieData,
+  onLikeMovie,
+  userMovies,
+  onDislikeMovies,
+}) => {
+  const [isLiked, setIsLiked] = useState(false);
+
   const {
     trailerLink,
     image,
@@ -28,7 +35,22 @@ const MoviesCard = ({ movieData, onLikeMovie, onGetSavedMovies }) => {
     hover.current.style.visibility = 'hidden';
   };
 
-  const handlerLikeMovie = () => {
+  const handleChechedLike = () => {
+    if (location.pathname === '/movies' && userMovies.length) {
+      const likedMovie = userMovies.find((item) => {
+        if (item.movieId === id) {
+          setIsLiked(() => true);
+          return item;
+        }
+      });
+      return likedMovie;
+    } else {
+      return null;
+    }
+  };
+
+  const handlerToggleMovie = () => {
+    const movie = handleChechedLike();
     const data = {
       country: country,
       director: director,
@@ -42,8 +64,19 @@ const MoviesCard = ({ movieData, onLikeMovie, onGetSavedMovies }) => {
       nameRU: nameRU,
       nameEN: nameEN,
     };
-    onLikeMovie(data);
+
+    if (movie) {
+      setIsLiked((prev) => !prev);
+      onDislikeMovies(movie._id);
+    } else {
+      onLikeMovie(data);
+      setIsLiked((prev) => true);
+    }
   };
+
+  useEffect(() => {
+    handleChechedLike();
+  }, []);
 
   return (
     <>
@@ -67,8 +100,8 @@ const MoviesCard = ({ movieData, onLikeMovie, onGetSavedMovies }) => {
           <h5 className="card__title">{nameRU || nameEN}</h5>
           <button
             ref={hover}
-            onClick={handlerLikeMovie}
-            className={`card__button ${
+            onClick={handlerToggleMovie}
+            className={`card__button ${isLiked && 'card__button_active'} ${
               location.pathname === '/movies' ? '' : 'card__button_type_remove'
             }`}
           />

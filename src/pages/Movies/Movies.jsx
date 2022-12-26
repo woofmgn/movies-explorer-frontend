@@ -15,6 +15,9 @@ const Movies = ({
   onPaginateMovies,
   onGetStorageData,
   onLikeMovie,
+  onGetSavedMovies,
+  userMovies,
+  onDislikeMovies,
 }) => {
   const handlerGetApiMovies = () => {
     onGetApiMovies();
@@ -41,6 +44,9 @@ const Movies = ({
         movies={movies}
         isLoading={isLoading}
         onLikeMovie={onLikeMovie}
+        onGetSavedMovies={onGetSavedMovies}
+        userMovies={userMovies}
+        onDislikeMovies={onDislikeMovies}
       />
       {moviesInStorage.length !== movies.length &&
         moviesInStorage.length > 4 && (

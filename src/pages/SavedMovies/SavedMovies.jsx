@@ -1,11 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import MoviesCardList from '../../components/MoviesCardList/MoviesCardList';
 import SearchForm from '../../components/SearchForm/SearchForm';
 
 const SavedMovies = ({ userMovies, onGetSavedMovies }) => {
-  useEffect(() => {
-    onGetSavedMovies();
-  }, []);
   return (
     <main className="movies-page">
       <SearchForm />
