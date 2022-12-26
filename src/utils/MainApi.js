@@ -24,7 +24,6 @@ class MainApi {
   }
 
   async savedMovie(data) {
-    console.log(this._url);
     const res = await fetch(`${this._url}/movies`, {
       method: 'POST',
       headers: {

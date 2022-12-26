@@ -5,12 +5,19 @@ import Preloader from '../Preloader/Preloader';
 import { SearchNotFound } from '../SearchNotFound/SearchNotFound';
 import './MoviesCardList.scss';
 
-const MoviesCardList = ({ movies, isLoading, onLikeMovie }) => {
+const MoviesCardList = ({
+  movies,
+  isLoading,
+  onLikeMovie,
+  userMovies,
+  onGetSavedMovies,
+}) => {
   let location = useLocation();
 
   return (
     <section className="movies">
-      {movies && movies.length !== 0 ? (
+      {(movies && movies.length !== 0) ||
+      (userMovies && userMovies.length !== 0) ? (
         <ul
           className={`movies-list ${
             location.pathname === '/saved-movies'
@@ -20,18 +27,28 @@ const MoviesCardList = ({ movies, isLoading, onLikeMovie }) => {
         >
           {isLoading ? (
             <Preloader />
-          ) : (
+          ) : location.pathname === '/movies' ? (
             movies.map((item) => {
               return (
                 <MoviesCard
                   key={item.id}
                   movieData={{ ...item }}
-                  thumbnail={item.image.formats.thumbnail.url}
                   onLikeMovie={onLikeMovie}
                 />
               );
             })
-          )}
+          ) : location.pathname === '/saved-movies' ? (
+            userMovies.map((savedMovie) => {
+              return (
+                <MoviesCard
+                  key={savedMovie._id}
+                  movieData={{ ...savedMovie }}
+                  onLikeMovie={onLikeMovie}
+                  onGetSavedMovies={onGetSavedMovies}
+                />
+              );
+            })
+          ) : null}
         </ul>
       ) : (
         <SearchNotFound />

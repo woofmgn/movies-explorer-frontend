@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.scss';
 
-const MoviesCard = ({ movieData, onLikeMovie }) => {
+const MoviesCard = ({ movieData, onLikeMovie, onGetSavedMovies }) => {
   const {
     trailerLink,
     image,
@@ -13,11 +13,12 @@ const MoviesCard = ({ movieData, onLikeMovie }) => {
     director,
     year,
     description,
-    thumbnail,
     id,
   } = movieData;
+
   let location = useLocation();
   const hover = useRef('hover');
+  const link = useRef('https://api.nomoreparties.co');
 
   const onHover = () => {
     hover.current.style.visibility = 'visible';
@@ -34,14 +35,13 @@ const MoviesCard = ({ movieData, onLikeMovie }) => {
       duration: duration,
       year: year,
       description: description,
-      image: `https://api.nomoreparties.co${image.url}`,
+      image: `${link.current}${image.url}`,
       trailerLink: trailerLink,
-      thumbnail: `https://api.nomoreparties.co${image.formats.thumbnail.url}`,
+      thumbnail: `${link.current}${image.formats.thumbnail.url}`,
       movieId: id,
       nameRU: nameRU,
       nameEN: nameEN,
     };
-    console.log(data);
     onLikeMovie(data);
   };
 
@@ -51,7 +51,11 @@ const MoviesCard = ({ movieData, onLikeMovie }) => {
         <a className="card__trailer-link" href={trailerLink} target="_black">
           <img
             className="card__preview"
-            src={`https://api.nomoreparties.co${image.url}`}
+            src={
+              location.pathname === '/movies'
+                ? `${link.current}${image.url}`
+                : image
+            }
             alt="превью фильма"
           />
         </a>

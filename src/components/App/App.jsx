@@ -31,6 +31,7 @@ function App() {
   const [isFilteredMovies, setIsFilteredMovies] = useState([]);
   const [slicedMovies, setSlicedMovies] = useState([]);
   const [userInfo, setUserInfo] = useState({});
+  const [savedUserMovies, setSavedUserMovies] = useState([]);
 
   const handleGetApiMovies = async () => {
     setIsLoading((prev) => !prev);
@@ -102,9 +103,21 @@ function App() {
     getStartSliceMovies(movies);
   };
 
+  const handleGetSavedMovies = async () => {
+    setIsLoading(() => true);
+    try {
+      const res = await savedMoviesApi.getSavedMovies();
+      setSavedUserMovies(res);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(() => false);
+    }
+  };
+
   const handleLikeMovies = async (movieCard) => {
     try {
-      const res = await savedMoviesApi.savedMovie(movieCard);
+      await savedMoviesApi.savedMovie(movieCard);
     } catch (err) {
       console.log(err);
     }
@@ -186,7 +199,15 @@ function App() {
             />
           }
         />
-        <Route path="/saved-movies" element={<SavedMovies />} />
+        <Route
+          path="/saved-movies"
+          element={
+            <SavedMovies
+              userMovies={savedUserMovies}
+              onGetSavedMovies={handleGetSavedMovies}
+            />
+          }
+        />
         <Route
           path="/signup"
           element={<Register onRegisterUser={handleRegistrationUser} />}
