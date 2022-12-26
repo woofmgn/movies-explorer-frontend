@@ -1,9 +1,13 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import './Profile.scss';
 
-const Profile = () => {
-  const navigate = useNavigate();
+const Profile = ({ userInfo, onLogOutUser, onSetUserInfo }) => {
+  const handlerLogOutUser = () => {
+    onLogOutUser();
+  };
+
+  const handlerChangeUserInfo = (evt) => {};
+
   return (
     <main className="main main_type_user-profile">
       <section className="auth profile">
@@ -13,8 +17,10 @@ const Profile = () => {
             Имя
             <input
               className="profile-form__input profile-form__input_type_email"
-              type="email"
+              type="name"
               required
+              value={userInfo.name || ''}
+              onChange={handlerChangeUserInfo}
             />
           </label>
 
@@ -25,13 +31,15 @@ const Profile = () => {
               className="profile-form__input profile-form__input_type_email"
               type="email"
               required
+              value={userInfo.email || ''}
+              onChange={handlerChangeUserInfo}
             />
           </label>
 
           <span className="profile-form__error"></span>
           <button className="profile-form__submit">Редактировать</button>
         </form>
-        <button className="logout-button" onClick={() => navigate('/')}>
+        <button className="logout-button" onClick={handlerLogOutUser}>
           Выйти из аккаунта
         </button>
       </section>

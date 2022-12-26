@@ -13,6 +13,10 @@ class Storage {
   setDataStorage(newData) {
     localStorage.setItem(this._dataStorage, JSON.stringify(newData));
   }
+
+  removeItemDataStorage() {
+    localStorage.removeItem(this._dataStorage);
+  }
 }
 
 const moviesStorage = new Storage('movies');

@@ -5,7 +5,7 @@ import Preloader from '../Preloader/Preloader';
 import { SearchNotFound } from '../SearchNotFound/SearchNotFound';
 import './MoviesCardList.scss';
 
-const MoviesCardList = ({ movies, isLoading }) => {
+const MoviesCardList = ({ movies, isLoading, onLikeMovie }) => {
   let location = useLocation();
 
   return (
@@ -25,11 +25,9 @@ const MoviesCardList = ({ movies, isLoading }) => {
               return (
                 <MoviesCard
                   key={item.id}
-                  imageUrl={item.image.url}
-                  titleRU={item.nameRU}
-                  titleEN={item.nameEN}
-                  duration={item.duration}
-                  trailerLink={item.trailerLink}
+                  movieData={{ ...item }}
+                  thumbnail={item.image.formats.thumbnail.url}
+                  onLikeMovie={onLikeMovie}
                 />
               );
             })

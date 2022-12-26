@@ -14,6 +14,7 @@ const Movies = ({
   onGetApiMovies,
   onPaginateMovies,
   onGetStorageData,
+  onLikeMovie,
 }) => {
   const handlerGetApiMovies = () => {
     onGetApiMovies();
@@ -36,7 +37,11 @@ const Movies = ({
         onToggleCheckbox={onToggleCheckbox}
         onSearchMovies={onSearchMovies}
       />
-      <MoviesCardList movies={movies} isLoading={isLoading} />
+      <MoviesCardList
+        movies={movies}
+        isLoading={isLoading}
+        onLikeMovie={onLikeMovie}
+      />
       {moviesInStorage.length !== movies.length &&
         moviesInStorage.length > 4 && (
           <button className="more-button" onClick={handlerPagitateMovies}>

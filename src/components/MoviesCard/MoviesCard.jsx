@@ -2,9 +2,21 @@ import React, { useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.scss';
 
-const MoviesCard = ({ imageUrl, titleRU, titleEN, duration, trailerLink }) => {
+const MoviesCard = ({ movieData, onLikeMovie }) => {
+  const {
+    trailerLink,
+    image,
+    nameRU,
+    nameEN,
+    duration,
+    country,
+    director,
+    year,
+    description,
+    thumbnail,
+    id,
+  } = movieData;
   let location = useLocation();
-
   const hover = useRef('hover');
 
   const onHover = () => {
@@ -15,13 +27,31 @@ const MoviesCard = ({ imageUrl, titleRU, titleEN, duration, trailerLink }) => {
     hover.current.style.visibility = 'hidden';
   };
 
+  const handlerLikeMovie = () => {
+    const data = {
+      country: country,
+      director: director,
+      duration: duration,
+      year: year,
+      description: description,
+      image: `https://api.nomoreparties.co${image.url}`,
+      trailerLink: trailerLink,
+      thumbnail: `https://api.nomoreparties.co${image.formats.thumbnail.url}`,
+      movieId: id,
+      nameRU: nameRU,
+      nameEN: nameEN,
+    };
+    console.log(data);
+    onLikeMovie(data);
+  };
+
   return (
     <>
       <li className="card">
         <a className="card__trailer-link" href={trailerLink} target="_black">
           <img
             className="card__preview"
-            src={`https://api.nomoreparties.co${imageUrl}`}
+            src={`https://api.nomoreparties.co${image.url}`}
             alt="превью фильма"
           />
         </a>
@@ -30,9 +60,10 @@ const MoviesCard = ({ imageUrl, titleRU, titleEN, duration, trailerLink }) => {
           onMouseEnter={location.pathname === '/movies' ? null : onHover}
           onMouseLeave={location.pathname === '/movies' ? null : onExit}
         >
-          <h5 className="card__title">{titleRU || titleEN}</h5>
+          <h5 className="card__title">{nameRU || nameEN}</h5>
           <button
             ref={hover}
+            onClick={handlerLikeMovie}
             className={`card__button ${
               location.pathname === '/movies' ? '' : 'card__button_type_remove'
             }`}

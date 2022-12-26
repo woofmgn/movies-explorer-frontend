@@ -9,6 +9,7 @@ import Profile from '../../pages/Profile/Profile';
 import Register from '../../pages/Register/Register';
 import SavedMovies from '../../pages/SavedMovies/SavedMovies';
 import { authApi } from '../../utils/Auth';
+import { savedMoviesApi } from '../../utils/MainApi';
 import { apiMovies } from '../../utils/MoviesApi';
 import {
   checkboxStatus,
@@ -47,17 +48,16 @@ function App() {
     setIsChecked((prev) => !prev);
   };
 
+  const handleSetUserInfo = (newInfo) => {
+    setUserInfo(newInfo);
+  };
+
   const handleSearchMovies = (data) => {
     setSearchedMovies(data);
     filteredReqMovies(data);
     searchReqStorage.setDataStorage(data);
     checkboxStatus.setDataStorage(isChecked);
   };
-
-  // хардкод для проверки изменения визуала хедера
-  // const handleToggleLoginStatus = () => {
-  //   setIsLogged((prev) => !prev);
-  // };
 
   const getStartSliceMovies = (slicedArr) => {
     const newArr = slicedArr.slice(0, 4);
@@ -102,6 +102,14 @@ function App() {
     getStartSliceMovies(movies);
   };
 
+  const handleLikeMovies = async (movieCard) => {
+    try {
+      const res = await savedMoviesApi.savedMovie(movieCard);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const handleChechToken = async () => {
     const token = jwtToken.getDataStorage();
     if (token) {
@@ -115,7 +123,6 @@ function App() {
         navigate('/movies');
       } catch (err) {
         console.log(err);
-        navigate('/signin');
       }
     }
   };
@@ -140,6 +147,11 @@ function App() {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleLogOutUser = () => {
+    jwtToken.removeItemDataStorage();
+    navigate('/');
   };
 
   useEffect(() => {
@@ -170,6 +182,7 @@ function App() {
               onSearchMovies={handleSearchMovies}
               onPaginateMovies={handlePaginationMovies}
               onGetStorageData={handleGetStorageData}
+              onLikeMovie={handleLikeMovies}
             />
           }
         />
@@ -182,7 +195,16 @@ function App() {
           path="/signin"
           element={<Login onAuthUser={handleAuthorizationUser} />}
         />
-        <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/profile"
+          element={
+            <Profile
+              userInfo={userInfo}
+              onLogOutUser={handleLogOutUser}
+              onSetUserInfo={handleSetUserInfo}
+            />
+          }
+        />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
 

@@ -2,6 +2,7 @@ class MainApi {
   constructor(settings) {
     this._url = settings.url;
     this._headers = settings.headers;
+    this._token = JSON.parse(localStorage.getItem('token'));
   }
 
   _getResponseData(res) {
@@ -13,28 +14,25 @@ class MainApi {
 
   async getSavedMovies() {
     const res = await fetch(`${this._url}/movies`, {
-      headers: this._headers,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this._token}`,
+      },
     });
     return this._getResponseData(res);
   }
 
   async savedMovie(data) {
+    console.log(this._url);
     const res = await fetch(`${this._url}/movies`, {
       method: 'POST',
-      headers: this._headers,
-      body: JSON.stringify({
-        country: data.country,
-        director: data.director,
-        duration: data.duration,
-        year: data.year,
-        description: data.description,
-        image: data.image.url,
-        trailerLink: data.trailerLink,
-        thumbnail: data.image.formats.thumbnail.url,
-        movieId: data.id,
-        nameRU: data.nameRU,
-        nameEN: data.nameEN,
-      }),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this._token}`,
+      },
+      body: JSON.stringify(data),
     });
     return this._getResponseData(res);
   }
@@ -42,10 +40,20 @@ class MainApi {
   async deleteMovie(id) {
     const res = await fetch(`${this._url}/movies/${id}`, {
       method: 'DELETE',
-      headers: this._headers,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this._token}`,
+      },
     });
     return this._getResponseData(res);
   }
 }
 
-const savedMoviesApi = new MainApi({});
+export const savedMoviesApi = new MainApi({
+  url: 'http://localhost:3001',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+});
