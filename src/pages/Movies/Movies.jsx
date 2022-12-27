@@ -8,7 +8,6 @@ const Movies = ({
   isChecked,
   isLoading,
   moviesInStorage,
-  prevSearch,
   onToggleCheckbox,
   onSearchMovies,
   onGetApiMovies,
@@ -36,7 +35,6 @@ const Movies = ({
     <main className="movies-page">
       <SearchForm
         isChecked={isChecked}
-        prevSearch={prevSearch}
         onToggleCheckbox={onToggleCheckbox}
         onSearchMovies={onSearchMovies}
       />

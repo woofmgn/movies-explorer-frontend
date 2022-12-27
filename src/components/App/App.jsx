@@ -196,7 +196,6 @@ function App() {
               movies={slicedMovies}
               isChecked={isChecked}
               isLoading={isLoading}
-              prevSearch={searchedMovies}
               moviesInStorage={isFilteredMovies}
               onGetApiMovies={handleGetApiMovies}
               onToggleCheckbox={handleToggleCheckbox}

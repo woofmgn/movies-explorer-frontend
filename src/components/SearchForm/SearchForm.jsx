@@ -1,13 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { searchReqStorage } from '../../utils/storage';
 // import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './SearchForm.scss';
 
-const SearchForm = ({
-  isChecked,
-  prevSearch,
-  onToggleCheckbox,
-  onSearchMovies,
-}) => {
+const SearchForm = ({ isChecked, onToggleCheckbox, onSearchMovies }) => {
   const [isSearch, setSearch] = useState('');
 
   const handleToggleCheckbox = () => {
@@ -22,6 +18,14 @@ const SearchForm = ({
     evt.preventDefault();
     onSearchMovies(isSearch);
   };
+
+  useEffect(() => {
+    const prevSearch = searchReqStorage.getDataStorage();
+    if (prevSearch) {
+      setSearch(prevSearch);
+    }
+  }, []);
+
   return (
     <section className="search-form">
       <form className="form search-movies" onSubmit={handlerSumbit}>
@@ -33,7 +37,7 @@ const SearchForm = ({
             placeholder="Фильм"
             required
             // value={values.search && isSearch}
-            value={isSearch || prevSearch || ''}
+            value={isSearch || ''}
             onChange={handleChangleInput}
           />
           {/* <span className="auth-form__error">{errors.search}</span> */}

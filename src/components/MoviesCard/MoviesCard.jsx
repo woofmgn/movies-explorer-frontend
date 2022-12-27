@@ -51,6 +51,7 @@ const MoviesCard = ({
 
   const handlerToggleMovie = () => {
     const movie = handleChechedLike();
+    console.log(movie);
     const data = {
       country: country,
       director: director,
@@ -70,8 +71,13 @@ const MoviesCard = ({
       onDislikeMovies(movie._id);
     } else {
       onLikeMovie(data);
-      setIsLiked((prev) => true);
+      setIsLiked(() => true);
     }
+  };
+
+  const handleDeleteMovies = () => {
+    console.log(movieData._id);
+    onDislikeMovies(movieData._id);
   };
 
   useEffect(() => {
@@ -98,13 +104,18 @@ const MoviesCard = ({
           onMouseLeave={location.pathname === '/movies' ? null : onExit}
         >
           <h5 className="card__title">{nameRU || nameEN}</h5>
-          <button
-            ref={hover}
-            onClick={handlerToggleMovie}
-            className={`card__button ${isLiked && 'card__button_active'} ${
-              location.pathname === '/movies' ? '' : 'card__button_type_remove'
-            }`}
-          />
+          {location.pathname === '/movies' ? (
+            <button
+              onClick={handlerToggleMovie}
+              className={`card__button ${isLiked && 'card__button_active'}`}
+            />
+          ) : (
+            <button
+              ref={hover}
+              onClick={handleDeleteMovies}
+              className="card__button card__button_type_remove"
+            />
+          )}
         </div>
         <p className="card__duration">{duration} мин.</p>
       </li>
