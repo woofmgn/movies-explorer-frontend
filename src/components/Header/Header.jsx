@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import NavBar from '../NavBar/NavBar';
 import './Header.scss';
 
-const Header = ({ isLogged }) => {
+const Header = React.memo(({ isLogged }) => {
   return (
     <header className={`header ${isLogged ? 'header_theme_dark' : null}`}>
       <Link className="header__main-link" to="/" />
@@ -32,6 +32,6 @@ const Header = ({ isLogged }) => {
       )}
     </header>
   );
-};
+});
 
 export default Header;

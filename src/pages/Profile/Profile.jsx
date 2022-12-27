@@ -1,26 +1,45 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import { CurrentUserContext } from '../../context/CurrentUserContext';
 import './Profile.scss';
 
-const Profile = ({ userInfo, onLogOutUser, onSetUserInfo }) => {
+const Profile = ({ onLogOutUser, onSetUserInfo }) => {
+  const userInfo = useContext(CurrentUserContext);
+  const [userName, setUserName] = useState(userInfo.name);
+  const [userEmail, setUserEmail] = useState(userInfo.email);
+
   const handlerLogOutUser = () => {
     onLogOutUser();
   };
 
-  const handlerChangeUserInfo = (evt) => {};
+  const handlerChangeUserName = (evt) => {
+    setUserName(evt.target.value);
+  };
+
+  const handlerChangeUserEmail = (evt) => {
+    setUserEmail(evt.target.value);
+  };
+
+  const handleSumbitSetUserInfo = (evt) => {
+    evt.preventDefault();
+    onSetUserInfo({
+      name: userName,
+      email: userEmail,
+    });
+  };
 
   return (
     <main className="main main_type_user-profile">
       <section className="auth profile">
         <h3 className="profile__title">Добро пожаловать</h3>
-        <form className="profile-form">
+        <form className="profile-form" onSubmit={handleSumbitSetUserInfo}>
           <label className="profile-form__label">
             Имя
             <input
               className="profile-form__input profile-form__input_type_email"
               type="name"
               required
-              value={userInfo.name || ''}
-              onChange={handlerChangeUserInfo}
+              value={userName}
+              onChange={handlerChangeUserName}
             />
           </label>
 
@@ -31,8 +50,8 @@ const Profile = ({ userInfo, onLogOutUser, onSetUserInfo }) => {
               className="profile-form__input profile-form__input_type_email"
               type="email"
               required
-              value={userInfo.email || ''}
-              onChange={handlerChangeUserInfo}
+              value={userEmail}
+              onChange={handlerChangeUserEmail}
             />
           </label>
 

@@ -51,7 +51,7 @@ const MoviesCard = ({
 
   const handlerToggleMovie = () => {
     const movie = handleChechedLike();
-    console.log(movie);
+
     const data = {
       country: country,
       director: director,
@@ -76,7 +76,6 @@ const MoviesCard = ({
   };
 
   const handleDeleteMovies = () => {
-    console.log(movieData._id);
     onDislikeMovies(movieData._id);
   };
 

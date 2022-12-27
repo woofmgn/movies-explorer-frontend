@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { CurrentUserContext } from '../../context/CurrentUserContext';
 
 import Login from '../../pages/Login/Login';
 import Main from '../../pages/Main/Main';
@@ -49,14 +50,20 @@ function App() {
     setIsChecked((prev) => !prev);
   };
 
-  const handleSetUserInfo = (newInfo) => {
-    setUserInfo(newInfo);
+  const handleSetUserInfo = async (newInfo) => {
+    console.log(newInfo);
+    try {
+      const res = await authApi.editProfile(newInfo.name, newInfo.email);
+      setUserInfo(res);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const handleSearchMovies = (data) => {
-    setSearchedMovies(data);
-    filteredReqMovies(data);
-    searchReqStorage.setDataStorage(data);
+  const handleSearchMovies = (searchReq) => {
+    setSearchedMovies(searchReq);
+    filteredReqMovies(searchReq);
+    searchReqStorage.setDataStorage(searchReq);
     checkboxStatus.setDataStorage(isChecked);
   };
 
@@ -72,10 +79,14 @@ function App() {
     setSlicedMovies([...slicedMovies, ...newArr]);
   };
 
-  const filteredReqMovies = (data) => {
+  const filteredReqMovies = (searchReq) => {
     const filteredMovies = movies.filter((item) => {
-      const titleRU = item.nameRU.toLowerCase().includes(data.toLowerCase());
-      const titleEN = item.nameEN.toLowerCase().includes(data.toLowerCase());
+      const titleRU = item.nameRU
+        .toLowerCase()
+        .includes(searchReq.toLowerCase());
+      const titleEN = item.nameEN
+        .toLowerCase()
+        .includes(searchReq.toLowerCase());
       if (isChecked && item.duration <= 40) {
         return titleRU || titleEN;
       } else if (!isChecked && item.duration > 40) {
@@ -86,6 +97,25 @@ function App() {
     setIsFilteredMovies(filteredMovies);
     getStartSliceMovies(filteredMovies);
   };
+
+  // const toggleCheckboxfilteredReqMovies = (searchReq, moviesList) => {
+  //   const filteredMovies = moviesList.filter((item) => {
+  //     const titleRU = item.nameRU
+  //       .toLowerCase()
+  //       .includes(searchReq.toLowerCase());
+  //     const titleEN = item.nameEN
+  //       .toLowerCase()
+  //       .includes(searchReq.toLowerCase());
+  //     if (isChecked && item.duration <= 40) {
+  //       return titleRU || titleEN;
+  //     } else if (!isChecked && item.duration > 40) {
+  //       return titleRU || titleEN;
+  //     }
+  //   });
+  //   moviesStorage.setDataStorage(filteredMovies);
+  //   setIsFilteredMovies(filteredMovies);
+  //   getStartSliceMovies(filteredMovies);
+  // };
 
   const handleGetStorageData = async () => {
     const movies = await moviesStorage.getDataStorage();
@@ -126,6 +156,8 @@ function App() {
   const handleDislikeMovies = async (id) => {
     try {
       await savedMoviesApi.deleteMovie(id);
+      const afterDelMovie = savedUserMovies.filter((item) => item._id !== id);
+      setSavedUserMovies(afterDelMovie);
     } catch (err) {
       console.log(err);
     }
@@ -181,70 +213,71 @@ function App() {
 
   return (
     <>
-      {location.pathname === '/' ||
-      location.pathname === '/movies' ||
-      location.pathname === '/saved-movies' ||
-      location.pathname === '/profile' ? (
-        <Header isLogged={isLogged} />
-      ) : null}
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route
-          path="/movies"
-          element={
-            <Movies
-              movies={slicedMovies}
-              isChecked={isChecked}
-              isLoading={isLoading}
-              moviesInStorage={isFilteredMovies}
-              onGetApiMovies={handleGetApiMovies}
-              onToggleCheckbox={handleToggleCheckbox}
-              onSearchMovies={handleSearchMovies}
-              onPaginateMovies={handlePaginationMovies}
-              onGetStorageData={handleGetStorageData}
-              onLikeMovie={handleLikeMovies}
-              onGetSavedMovies={handleGetSavedMovies}
-              userMovies={savedUserMovies}
-              onDislikeMovies={handleDislikeMovies}
-            />
-          }
-        />
-        <Route
-          path="/saved-movies"
-          element={
-            <SavedMovies
-              userMovies={savedUserMovies}
-              onGetSavedMovies={handleGetSavedMovies}
-              onDislikeMovies={handleDislikeMovies}
-            />
-          }
-        />
-        <Route
-          path="/signup"
-          element={<Register onRegisterUser={handleRegistrationUser} />}
-        />
-        <Route
-          path="/signin"
-          element={<Login onAuthUser={handleAuthorizationUser} />}
-        />
-        <Route
-          path="/profile"
-          element={
-            <Profile
-              userInfo={userInfo}
-              onLogOutUser={handleLogOutUser}
-              onSetUserInfo={handleSetUserInfo}
-            />
-          }
-        />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
+      <CurrentUserContext.Provider value={userInfo}>
+        {location.pathname === '/' ||
+        location.pathname === '/movies' ||
+        location.pathname === '/saved-movies' ||
+        location.pathname === '/profile' ? (
+          <Header isLogged={isLogged} />
+        ) : null}
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route
+            path="/movies"
+            element={
+              <Movies
+                movies={slicedMovies}
+                isChecked={isChecked}
+                isLoading={isLoading}
+                moviesInStorage={isFilteredMovies}
+                onGetApiMovies={handleGetApiMovies}
+                onToggleCheckbox={handleToggleCheckbox}
+                onSearchMovies={handleSearchMovies}
+                onPaginateMovies={handlePaginationMovies}
+                onGetStorageData={handleGetStorageData}
+                onLikeMovie={handleLikeMovies}
+                onGetSavedMovies={handleGetSavedMovies}
+                userMovies={savedUserMovies}
+                onDislikeMovies={handleDislikeMovies}
+              />
+            }
+          />
+          <Route
+            path="/saved-movies"
+            element={
+              <SavedMovies
+                userMovies={savedUserMovies}
+                onGetSavedMovies={handleGetSavedMovies}
+                onDislikeMovies={handleDislikeMovies}
+              />
+            }
+          />
+          <Route
+            path="/signup"
+            element={<Register onRegisterUser={handleRegistrationUser} />}
+          />
+          <Route
+            path="/signin"
+            element={<Login onAuthUser={handleAuthorizationUser} />}
+          />
+          <Route
+            path="/profile"
+            element={
+              <Profile
+                onLogOutUser={handleLogOutUser}
+                onSetUserInfo={handleSetUserInfo}
+              />
+            }
+          />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
 
-      {location.pathname === '/' ||
-      location.pathname === '/movies' ||
-      location.pathname === '/saved-movies' ? (
-        <Footer />
-      ) : null}
+        {location.pathname === '/' ||
+        location.pathname === '/movies' ||
+        location.pathname === '/saved-movies' ? (
+          <Footer />
+        ) : null}
+      </CurrentUserContext.Provider>
     </>
   );
 }

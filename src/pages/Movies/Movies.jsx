@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import MoviesCardList from '../../components/MoviesCardList/MoviesCardList';
 import SearchForm from '../../components/SearchForm/SearchForm';
+import { searchReqStorage } from '../../utils/storage';
 import './Movies.scss';
 
 const Movies = ({
@@ -30,6 +31,13 @@ const Movies = ({
     handlerGetApiMovies();
     onGetStorageData();
   }, []);
+
+  useEffect(() => {
+    const searchReq = searchReqStorage.getDataStorage();
+    if (searchReq) {
+      onSearchMovies(searchReq);
+    }
+  }, [isChecked]);
 
   return (
     <main className="movies-page">

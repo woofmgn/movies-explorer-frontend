@@ -2,6 +2,7 @@ class Auth {
   constructor(settings) {
     this._url = settings.url;
     this._headers = settings.headers;
+    this._token = JSON.parse(localStorage.getItem('token'));
   }
 
   _getResponseData(res) {
@@ -30,13 +31,14 @@ class Auth {
   }
 
   async editProfile(newName, newEmail) {
-    const res = fetch(`${this._url}/users/me`, {
+    const res = await fetch(`${this._url}/users/me`, {
       method: 'PATCH',
-      headers: this._headers,
-      body: {
-        name: newName,
-        email: newEmail,
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this._token}`,
       },
+      body: JSON.stringify({ name: newName, email: newEmail }),
     });
     return this._getResponseData(res);
   }

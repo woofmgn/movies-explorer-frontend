@@ -39,7 +39,6 @@ const MoviesCardList = ({
                   key={item.id}
                   movieData={{ ...item }}
                   onLikeMovie={onLikeMovie}
-                  movieId={userMovies.movieId}
                   userMovies={userMovies}
                   onDislikeMovies={onDislikeMovies}
                 />
@@ -52,8 +51,6 @@ const MoviesCardList = ({
                   key={savedMovie._id}
                   movieData={{ ...savedMovie }}
                   onLikeMovie={onLikeMovie}
-                  onGetSavedMovies={onGetSavedMovies}
-                  movieId={userMovies.movieId}
                   userMovies={userMovies}
                   onDislikeMovies={onDislikeMovies}
                 />
