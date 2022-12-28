@@ -51,7 +51,6 @@ const MoviesCard = ({
 
   const handlerToggleMovie = () => {
     const movie = handleChechedLike();
-    console.log(movie);
     const data = {
       country: country,
       director: director,

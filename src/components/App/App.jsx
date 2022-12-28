@@ -245,6 +245,7 @@ function App() {
                 onDislikeMovies={handleDislikeMovies}
                 isChecked={isChecked}
                 onSetSavedUserMovies={handleSetSavedUserMovies}
+                onToggleCheckbox={handleToggleCheckbox}
               />
             }
           />

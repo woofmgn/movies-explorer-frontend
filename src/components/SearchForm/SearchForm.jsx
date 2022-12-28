@@ -9,9 +9,10 @@ const SearchForm = ({
   onToggleCheckbox,
   onSearchMovies,
   onSearchUserMovies,
+  onfilterUserMovie,
 }) => {
   const [isSearch, setSearch] = useState('');
-  const location = useLocation().pathname;
+  const location = useLocation();
 
   const handleToggleCheckbox = () => {
     onToggleCheckbox();
@@ -31,6 +32,11 @@ const SearchForm = ({
     onSearchUserMovies(isSearch);
   };
 
+  const handleToggleUserCheckbox = () => {
+    onToggleCheckbox();
+    onfilterUserMovie(isChecked);
+  };
+
   useEffect(() => {
     const prevSearch = searchReqStorage.getDataStorage();
     if (prevSearch) {
@@ -43,7 +49,7 @@ const SearchForm = ({
       <form
         className="form search-movies"
         onSubmit={
-          location === '/movies'
+          location.pathname === '/movies'
             ? (evt) => handlerSumbit(evt)
             : (evt) => handleSumbitUserSearch(evt)
         }
@@ -73,7 +79,11 @@ const SearchForm = ({
               type="checkbox"
               className="search-movies__checkbox"
               checked={isChecked}
-              onChange={handleToggleCheckbox}
+              onChange={
+                location.pathname === '/movies'
+                  ? () => handleToggleCheckbox()
+                  : () => handleToggleUserCheckbox()
+              }
             />
             <div className="search-movies__slider">
               <div className="search-movies__knob"></div>
