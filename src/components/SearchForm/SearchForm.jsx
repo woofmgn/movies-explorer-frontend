@@ -1,10 +1,17 @@
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { searchReqStorage } from '../../utils/storage';
 // import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './SearchForm.scss';
 
-const SearchForm = ({ isChecked, onToggleCheckbox, onSearchMovies }) => {
+const SearchForm = ({
+  isChecked,
+  onToggleCheckbox,
+  onSearchMovies,
+  onSearchUserMovies,
+}) => {
   const [isSearch, setSearch] = useState('');
+  const location = useLocation().pathname;
 
   const handleToggleCheckbox = () => {
     onToggleCheckbox();
@@ -19,6 +26,11 @@ const SearchForm = ({ isChecked, onToggleCheckbox, onSearchMovies }) => {
     onSearchMovies(isSearch);
   };
 
+  const handleSumbitUserSearch = (evt) => {
+    evt.preventDefault();
+    onSearchUserMovies(isSearch);
+  };
+
   useEffect(() => {
     const prevSearch = searchReqStorage.getDataStorage();
     if (prevSearch) {
@@ -28,7 +40,14 @@ const SearchForm = ({ isChecked, onToggleCheckbox, onSearchMovies }) => {
 
   return (
     <section className="search-form">
-      <form className="form search-movies" onSubmit={handlerSumbit}>
+      <form
+        className="form search-movies"
+        onSubmit={
+          location === '/movies'
+            ? (evt) => handlerSumbit(evt)
+            : (evt) => handleSumbitUserSearch(evt)
+        }
+      >
         <fieldset className="search-movies__wrapper">
           <input
             className="search-movies__input"

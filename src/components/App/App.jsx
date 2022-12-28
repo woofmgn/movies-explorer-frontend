@@ -46,6 +46,10 @@ function App() {
     }
   };
 
+  const handleSetSavedUserMovies = (newMovieList) => {
+    setSavedUserMovies(newMovieList);
+  };
+
   const handleToggleCheckbox = () => {
     setIsChecked((prev) => !prev);
   };
@@ -64,6 +68,13 @@ function App() {
     setSearchedMovies(searchReq);
     filteredReqMovies(searchReq);
     searchReqStorage.setDataStorage(searchReq);
+    checkboxStatus.setDataStorage(isChecked);
+  };
+
+  const handleCheckBoxToggle = () => {
+    const searchReq = searchReqStorage.getDataStorage();
+    setSearchedMovies(searchReq);
+    filteredReqMovies(searchReq);
     checkboxStatus.setDataStorage(isChecked);
   };
 
@@ -98,25 +109,6 @@ function App() {
     getStartSliceMovies(filteredMovies);
   };
 
-  // const toggleCheckboxfilteredReqMovies = (searchReq, moviesList) => {
-  //   const filteredMovies = moviesList.filter((item) => {
-  //     const titleRU = item.nameRU
-  //       .toLowerCase()
-  //       .includes(searchReq.toLowerCase());
-  //     const titleEN = item.nameEN
-  //       .toLowerCase()
-  //       .includes(searchReq.toLowerCase());
-  //     if (isChecked && item.duration <= 40) {
-  //       return titleRU || titleEN;
-  //     } else if (!isChecked && item.duration > 40) {
-  //       return titleRU || titleEN;
-  //     }
-  //   });
-  //   moviesStorage.setDataStorage(filteredMovies);
-  //   setIsFilteredMovies(filteredMovies);
-  //   getStartSliceMovies(filteredMovies);
-  // };
-
   const handleGetStorageData = async () => {
     const movies = await moviesStorage.getDataStorage();
     const chechbox = await checkboxStatus.getDataStorage();
@@ -147,7 +139,8 @@ function App() {
 
   const handleLikeMovies = async (movieCard) => {
     try {
-      await savedMoviesApi.savedMovie(movieCard);
+      const res = await savedMoviesApi.savedMovie(movieCard);
+      setSavedUserMovies([...savedUserMovies, res]);
     } catch (err) {
       console.log(err);
     }
@@ -173,7 +166,6 @@ function App() {
           name: res.name,
           email: res.email,
         });
-        navigate('/movies');
       } catch (err) {
         console.log(err);
       }
@@ -239,6 +231,8 @@ function App() {
                 onGetSavedMovies={handleGetSavedMovies}
                 userMovies={savedUserMovies}
                 onDislikeMovies={handleDislikeMovies}
+                // onCheckboxFilter={handlerCheckboxFilter}
+                onCheckBoxToggle={handleCheckBoxToggle}
               />
             }
           />
@@ -249,6 +243,8 @@ function App() {
                 userMovies={savedUserMovies}
                 onGetSavedMovies={handleGetSavedMovies}
                 onDislikeMovies={handleDislikeMovies}
+                isChecked={isChecked}
+                onSetSavedUserMovies={handleSetSavedUserMovies}
               />
             }
           />

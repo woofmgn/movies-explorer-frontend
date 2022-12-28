@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import MoviesCardList from '../../components/MoviesCardList/MoviesCardList';
 import SearchForm from '../../components/SearchForm/SearchForm';
-import { searchReqStorage } from '../../utils/storage';
+// import { searchReqStorage } from '../../utils/storage';
 import './Movies.scss';
 
 const Movies = ({
@@ -18,6 +18,7 @@ const Movies = ({
   onGetSavedMovies,
   userMovies,
   onDislikeMovies,
+  onCheckBoxToggle,
 }) => {
   const handlerGetApiMovies = () => {
     onGetApiMovies();
@@ -33,10 +34,7 @@ const Movies = ({
   }, []);
 
   useEffect(() => {
-    const searchReq = searchReqStorage.getDataStorage();
-    if (searchReq) {
-      onSearchMovies(searchReq);
-    }
+    onCheckBoxToggle();
   }, [isChecked]);
 
   return (
