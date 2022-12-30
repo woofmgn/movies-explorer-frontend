@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import MoviesCardList from '../../components/MoviesCardList/MoviesCardList';
 import SearchForm from '../../components/SearchForm/SearchForm';
-// import { searchReqStorage } from '../../utils/storage';
 import './Movies.scss';
 
 const Movies = ({
@@ -30,8 +29,8 @@ const Movies = ({
   };
 
   useEffect(() => {
-    handlerGetApiMovies();
     onGetStorageData();
+    handlerGetApiMovies();
   }, []);
 
   useEffect(() => {

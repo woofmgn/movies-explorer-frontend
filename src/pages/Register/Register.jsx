@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './Register.scss';
 
-const Register = ({ onRegisterUser }) => {
+const Register = ({ authError, onRegisterUser }) => {
   const { values, handleChange, errors, isValid } = useFormAndValidation();
 
   const handlerSubmitRegister = (evt) => {
@@ -53,9 +53,12 @@ const Register = ({ onRegisterUser }) => {
             value={values.password || ''}
           />
           <span className="auth-form__error">{errors.password}</span>
-          <button className="auth-form__submit" disabled={!isValid}>
-            Зарегистрироваться
-          </button>
+          <div className="auth-form__submit-container">
+            <span className="auth-form__submit-error">{authError}</span>
+            <button className="auth-form__submit" disabled={!isValid}>
+              Зарегистрироваться
+            </button>
+          </div>
         </form>
         <p className="auth__subtitle">
           Уже зарегистрированы?

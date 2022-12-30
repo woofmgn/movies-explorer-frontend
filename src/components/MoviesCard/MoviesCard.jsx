@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.scss';
 
@@ -36,7 +36,7 @@ const MoviesCard = ({
   };
 
   const handleChechedLike = () => {
-    if (location.pathname === '/movies' && userMovies.length) {
+    if (location.pathname === '/movies' && userMovies && userMovies.length) {
       const likedMovie = userMovies.find((item) => {
         if (item.movieId === id) {
           setIsLiked(() => true);
@@ -78,6 +78,19 @@ const MoviesCard = ({
     onDislikeMovies(movieData._id);
   };
 
+  const handleCalculateDuration = (data) => {
+    const time = {
+      hour: `${Math.floor(data / 60) ? Math.floor(data / 60) + ' ч.' : ''}`,
+      minutes: `${data % 60 ? (data % 60) + ' мин.' : ''}`,
+    };
+    return time;
+  };
+
+  const memoizedDuration = useMemo(
+    () => handleCalculateDuration(duration),
+    [duration]
+  );
+
   useEffect(() => {
     handleChechedLike();
   }, []);
@@ -115,7 +128,9 @@ const MoviesCard = ({
             />
           )}
         </div>
-        <p className="card__duration">{duration} мин.</p>
+        <p className="card__duration">
+          {memoizedDuration.hour} {memoizedDuration.minutes}
+        </p>
       </li>
     </>
   );

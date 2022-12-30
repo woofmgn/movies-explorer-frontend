@@ -5,20 +5,22 @@ class MoviesApi {
     this._url = settings.url;
   }
 
-  _getResponseData(res) {
+  async _getResponseData(res) {
     if (!res.ok) {
-      return Promise.reject(`Ошибка: ${res.status}`);
+      const err = await res.json();
+      return Promise.reject(err);
     }
     return res.json();
   }
 
-  getMovies() {
-    return fetch(this._url, {
+  async getMovies() {
+    const res = await fetch(this._url, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-    }).then(this._getResponseData);
+    });
+    return this._getResponseData(res);
   }
 }
 

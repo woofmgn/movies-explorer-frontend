@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './Login.scss';
 
-const Login = ({ onAuthUser }) => {
+const Login = ({ onAuthUser, authError }) => {
   const { values, handleChange, errors, isValid } = useFormAndValidation();
 
   const handlerSubmitAuthUser = (evt) => {
@@ -43,17 +43,16 @@ const Login = ({ onAuthUser }) => {
             value={values.password || ''}
           />
           <span className="auth-form__error">{errors.password}</span>
-          <button
-            className="auth-form__submit auth-form__submit_type_login"
-            type="submit"
-            disabled={!isValid}
-          >
-            Войти
-          </button>
+          <div className="auth-form__submit-container">
+            <span className="auth-form__submit-error">{authError}</span>
+            <button className="auth-form__submit" disabled={!isValid}>
+              Войти
+            </button>
+          </div>
         </form>
         <p className="auth__subtitle">
           Ещё не зарегистрированы?
-          <Link to="/signin" className="auth__link">
+          <Link to="/signup" className="auth__link">
             Регистрация
           </Link>
         </p>

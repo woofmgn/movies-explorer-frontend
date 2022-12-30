@@ -118,13 +118,27 @@
     margin-bottom: 67px;
   }
 
+  &__submit-container {
+    margin-top: 69px;
+  }
+
+  &__submit-error {
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: center;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 14px;
+    color: #EE3465;
+    // visibility: hidden;
+  }
+
   &__submit {
     max-height: 45px;
     width: 100%;
     padding: 0;
     padding-top: 13px;
     padding-bottom: 15px;
-    margin-top: 69px;
     background-color:#4285F4;;
     border-radius: 3px;
     border: 0;
@@ -186,8 +200,12 @@
       margin-bottom: 65px;
     }
 
-    &__submit {
+    &__submit-container {
       margin-top: 157px;
+    }
+
+    &__submit {
+      // margin-top: 157px;
       font-size: 12px;
       line-height: 15px;
 

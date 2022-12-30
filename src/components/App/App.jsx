@@ -39,10 +39,10 @@ function App() {
     more: 4,
   });
   const [errorStatus, setErrorStatus] = useState(false);
+  const [authError, setAuthError] = useState('');
 
   const handleGetApiMovies = async () => {
     setIsLoading(() => true);
-    setErrorStatus(false);
     try {
       const res = await apiMovies.getMovies();
       setMovies(() => res);
@@ -110,8 +110,10 @@ function App() {
   };
 
   const getStartSliceMovies = (slicedArr) => {
-    const newArr = slicedArr.slice(0, resizeState.cards);
-    setSlicedMovies(newArr);
+    if (slicedArr) {
+      const newArr = slicedArr.slice(0, resizeState.cards);
+      setSlicedMovies(newArr);
+    }
   };
 
   const handlePaginationMovies = () => {
@@ -122,22 +124,24 @@ function App() {
   };
 
   const filteredReqMovies = (searchReq) => {
-    const filteredMovies = movies.filter((item) => {
-      const titleRU = item.nameRU
-        .toLowerCase()
-        .includes(searchReq.toLowerCase());
-      const titleEN = item.nameEN
-        .toLowerCase()
-        .includes(searchReq.toLowerCase());
-      if (isChecked && item.duration <= 40) {
-        return titleRU || titleEN;
-      } else if (!isChecked && item.duration > 40) {
-        return titleRU || titleEN;
-      }
-    });
-    moviesStorage.setDataStorage(filteredMovies);
-    setIsFilteredMovies(filteredMovies);
-    getStartSliceMovies(filteredMovies);
+    if (searchReq) {
+      const filteredMovies = movies.filter((item) => {
+        const titleRU = item.nameRU
+          .toLowerCase()
+          .includes(searchReq.toLowerCase());
+        const titleEN = item.nameEN
+          .toLowerCase()
+          .includes(searchReq.toLowerCase());
+        if (isChecked && item.duration <= 40) {
+          return titleRU || titleEN;
+        } else if (!isChecked && item.duration > 40) {
+          return titleRU || titleEN;
+        }
+      });
+      moviesStorage.setDataStorage(filteredMovies);
+      setIsFilteredMovies(filteredMovies);
+      getStartSliceMovies(filteredMovies);
+    }
   };
 
   const handleGetStorageData = async () => {
@@ -162,11 +166,9 @@ function App() {
     try {
       const res = await savedMoviesApi.getSavedMovies();
       setSavedUserMovies(res);
-      // setIsLoading(() => false);
     } catch (err) {
       console.log(err);
       setErrorStatus(true);
-      // setIsLoading(() => false);
     } finally {
       setIsLoading(() => false);
     }
@@ -196,12 +198,13 @@ function App() {
     if (token) {
       try {
         const res = await authApi.checkToken(token);
-        setIsLogged((prev) => !prev);
+        setIsLogged(true);
         setUserInfo({
           name: res.name,
           email: res.email,
         });
       } catch (err) {
+        setIsLogged(false);
         navigate('/');
         console.log(err);
       }
@@ -213,7 +216,8 @@ function App() {
       await authApi.register(name, email, password);
       navigate('/signin');
     } catch (err) {
-      console.log(err);
+      setAuthError(err.message);
+      console.log(err.message);
     }
   };
 
@@ -226,11 +230,15 @@ function App() {
         navigate('/movies');
       }
     } catch (err) {
+      const error = await err;
+      setAuthError(error);
       console.log(err);
     }
   };
 
   const handleLogOutUser = () => {
+    setIsLogged(false);
+    setUserInfo({});
     jwtToken.removeItemDataStorage();
     navigate('/');
   };
@@ -298,11 +306,21 @@ function App() {
           />
           <Route
             path="/signup"
-            element={<Register onRegisterUser={handleRegistrationUser} />}
+            element={
+              <Register
+                authError={authError}
+                onRegisterUser={handleRegistrationUser}
+              />
+            }
           />
           <Route
             path="/signin"
-            element={<Login onAuthUser={handleAuthorizationUser} />}
+            element={
+              <Login
+                authError={authError}
+                onAuthUser={handleAuthorizationUser}
+              />
+            }
           />
           <Route
             path="/profile"
