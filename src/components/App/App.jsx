@@ -18,6 +18,7 @@ import {
   moviesStorage,
   searchReqStorage,
 } from '../../utils/storage';
+
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 
@@ -33,16 +34,42 @@ function App() {
   const [slicedMovies, setSlicedMovies] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [savedUserMovies, setSavedUserMovies] = useState([]);
+  const [resizeState, setResizeState] = useState({
+    cards: 16,
+    more: 4,
+  });
+  const [errorStatus, setErrorStatus] = useState(false);
 
   const handleGetApiMovies = async () => {
     setIsLoading(() => true);
+    setErrorStatus(false);
     try {
       const res = await apiMovies.getMovies();
       setMovies(() => res);
     } catch (err) {
       console.log(err);
+      setErrorStatus(true);
     } finally {
       setIsLoading(() => false);
+    }
+  };
+
+  const handlerToggleResize = () => {
+    if (window.innerWidth > 1280) {
+      setResizeState({
+        cards: 16,
+        more: 4,
+      });
+    } else if (window.innerWidth < 1280 && window.innerWidth > 768) {
+      setResizeState({
+        cards: 12,
+        more: 3,
+      });
+    } else if (window.innerWidth <= 768) {
+      setResizeState({
+        cards: 5,
+        more: 2,
+      });
     }
   };
 
@@ -52,6 +79,10 @@ function App() {
 
   const handleToggleCheckbox = () => {
     setIsChecked((prev) => !prev);
+  };
+
+  const handleSetErrorStatus = (status) => {
+    setErrorStatus(status);
   };
 
   const handleSetUserInfo = async (newInfo) => {
@@ -79,13 +110,13 @@ function App() {
   };
 
   const getStartSliceMovies = (slicedArr) => {
-    const newArr = slicedArr.slice(0, 4);
+    const newArr = slicedArr.slice(0, resizeState.cards);
     setSlicedMovies(newArr);
   };
 
   const handlePaginationMovies = () => {
     const endMoviesList = slicedMovies.length;
-    const newLength = slicedMovies.length + 4;
+    const newLength = slicedMovies.length + resizeState.more;
     const newArr = isFilteredMovies.slice(endMoviesList, newLength);
     setSlicedMovies([...slicedMovies, ...newArr]);
   };
@@ -126,12 +157,16 @@ function App() {
   };
 
   const handleGetSavedMovies = async () => {
+    setErrorStatus(false);
     setIsLoading(() => true);
     try {
       const res = await savedMoviesApi.getSavedMovies();
       setSavedUserMovies(res);
+      // setIsLoading(() => false);
     } catch (err) {
       console.log(err);
+      setErrorStatus(true);
+      // setIsLoading(() => false);
     } finally {
       setIsLoading(() => false);
     }
@@ -167,6 +202,7 @@ function App() {
           email: res.email,
         });
       } catch (err) {
+        navigate('/');
         console.log(err);
       }
     }
@@ -203,6 +239,14 @@ function App() {
     handleChechToken();
   }, []);
 
+  useEffect(() => {
+    window.addEventListener('resize', handlerToggleResize);
+
+    return () => {
+      window.removeEventListener('resize', handlerToggleResize);
+    };
+  }, []);
+
   return (
     <>
       <CurrentUserContext.Provider value={userInfo}>
@@ -222,6 +266,8 @@ function App() {
                 isChecked={isChecked}
                 isLoading={isLoading}
                 moviesInStorage={isFilteredMovies}
+                userMovies={savedUserMovies}
+                errorStatus={errorStatus}
                 onGetApiMovies={handleGetApiMovies}
                 onToggleCheckbox={handleToggleCheckbox}
                 onSearchMovies={handleSearchMovies}
@@ -229,9 +275,7 @@ function App() {
                 onGetStorageData={handleGetStorageData}
                 onLikeMovie={handleLikeMovies}
                 onGetSavedMovies={handleGetSavedMovies}
-                userMovies={savedUserMovies}
                 onDislikeMovies={handleDislikeMovies}
-                // onCheckboxFilter={handlerCheckboxFilter}
                 onCheckBoxToggle={handleCheckBoxToggle}
               />
             }
@@ -241,11 +285,14 @@ function App() {
             element={
               <SavedMovies
                 userMovies={savedUserMovies}
+                isChecked={isChecked}
+                errorStatus={errorStatus}
+                isLoading={isLoading}
                 onGetSavedMovies={handleGetSavedMovies}
                 onDislikeMovies={handleDislikeMovies}
-                isChecked={isChecked}
                 onSetSavedUserMovies={handleSetSavedUserMovies}
                 onToggleCheckbox={handleToggleCheckbox}
+                onSetErrorStatus={handleSetErrorStatus}
               />
             }
           />

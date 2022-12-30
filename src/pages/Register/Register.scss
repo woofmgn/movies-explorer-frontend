@@ -139,6 +139,11 @@
       opacity: 0.8;
       cursor: pointer;
     }
+
+    &:disabled {
+      opacity: .6;
+      cursor: auto;
+    }
   }
 }
 

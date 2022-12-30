@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
+import { SearchError } from '../SearchError/SearchError';
 import { SearchNotFound } from '../SearchNotFound/SearchNotFound';
 import './MoviesCardList.scss';
 
@@ -10,6 +11,7 @@ const MoviesCardList = ({
   isLoading,
   onLikeMovie,
   userMovies,
+  errorStatus,
   onGetSavedMovies,
   onDislikeMovies,
 }) => {
@@ -34,7 +36,7 @@ const MoviesCardList = ({
         >
           {isLoading ? (
             <Preloader />
-          ) : location.pathname === '/movies' ? (
+          ) : location.pathname === '/movies' && !errorStatus ? (
             movies.map((item) => {
               return (
                 <MoviesCard
@@ -46,7 +48,7 @@ const MoviesCardList = ({
                 />
               );
             })
-          ) : location.pathname === '/saved-movies' ? (
+          ) : location.pathname === '/saved-movies' && !errorStatus ? (
             userMovies.map((savedMovie) => {
               return (
                 <MoviesCard
@@ -58,8 +60,12 @@ const MoviesCardList = ({
                 />
               );
             })
-          ) : null}
+          ) : (
+            <SearchError />
+          )}
         </ul>
+      ) : errorStatus ? (
+        <SearchError />
       ) : (
         <SearchNotFound />
       )}

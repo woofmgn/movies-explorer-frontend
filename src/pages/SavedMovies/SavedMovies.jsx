@@ -8,9 +8,16 @@ const SavedMovies = ({
   onGetSavedMovies,
   onDislikeMovies,
   isChecked,
+  isLoading,
+  errorStatus,
   onSetSavedUserMovies,
   onToggleCheckbox,
+  onSetErrorStatus,
 }) => {
+  const handlerSetErrorStatus = (status) => {
+    onSetErrorStatus(status);
+  };
+
   const handleSearchUserMovies = (reqSearch) => {
     const searched = userMovies.filter((item) => {
       const titleRU = item.nameRU
@@ -29,6 +36,7 @@ const SavedMovies = ({
   };
 
   const filterUserMovie = async (checkbox) => {
+    handlerSetErrorStatus(false);
     try {
       const res = await savedMoviesApi.getSavedMovies();
       const searched = res.filter((item) => {
@@ -41,6 +49,7 @@ const SavedMovies = ({
       onSetSavedUserMovies(searched);
     } catch (err) {
       console.log(err);
+      handlerSetErrorStatus(true);
     }
   };
 
@@ -53,9 +62,11 @@ const SavedMovies = ({
         onfilterUserMovie={filterUserMovie}
       />
       <MoviesCardList
+        isLoading={isLoading}
         userMovies={userMovies}
         onGetSavedMovies={onGetSavedMovies}
         onDislikeMovies={onDislikeMovies}
+        errorStatus={errorStatus}
       />
     </main>
   );

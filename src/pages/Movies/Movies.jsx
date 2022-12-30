@@ -8,6 +8,7 @@ const Movies = ({
   movies,
   isChecked,
   isLoading,
+  errorStatus,
   moviesInStorage,
   onToggleCheckbox,
   onSearchMovies,
@@ -47,6 +48,7 @@ const Movies = ({
       <MoviesCardList
         movies={movies}
         isLoading={isLoading}
+        errorStatus={errorStatus}
         onLikeMovie={onLikeMovie}
         onGetSavedMovies={onGetSavedMovies}
         userMovies={userMovies}
