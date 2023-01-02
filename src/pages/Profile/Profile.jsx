@@ -1,6 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
+import { REGEXP_EMAIL, REGEXP_NAME } from '../../utils/utils';
 import './Profile.scss';
 const ERROR = 'Нельзя отправить старые данные';
 
@@ -52,6 +53,7 @@ const Profile = ({
               className="profile-form__input profile-form__input_type_email"
               type="text"
               name="name"
+              pattern={REGEXP_NAME}
               required
               value={values.name || ''}
               onChange={handleChange}
@@ -65,6 +67,7 @@ const Profile = ({
               className="profile-form__input profile-form__input_type_email"
               type="email"
               name="email"
+              pattern={REGEXP_EMAIL}
               required
               value={values.email || ''}
               onChange={handleChange}

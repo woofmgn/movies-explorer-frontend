@@ -1,15 +1,19 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './Login.scss';
 
-const Login = ({ onAuthUser, authError }) => {
+const Login = ({ onAuthUser, authError, onSetAuthError }) => {
   const { values, handleChange, errors, isValid } = useFormAndValidation();
 
   const handlerSubmitAuthUser = (evt) => {
     evt.preventDefault();
     onAuthUser(values.email, values.password);
   };
+
+  useEffect(() => {
+    onSetAuthError('');
+  }, []);
 
   return (
     <main className="main main_type_user-profile">

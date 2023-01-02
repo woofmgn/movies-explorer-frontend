@@ -97,8 +97,10 @@ function App() {
       const res = await authApi.editProfile(newInfo.name, newInfo.email);
       setUserInfo(res);
     } catch (err) {
+      if (err.status) {
+        handleLogOutUser();
+      }
       setAuthError(err.message);
-      console.log(err);
     }
   };
 
@@ -177,7 +179,9 @@ function App() {
       const res = await savedMoviesApi.getSavedMovies();
       setSavedUserMovies(res);
     } catch (err) {
-      console.log(err);
+      if (err.status) {
+        handleLogOutUser();
+      }
       setErrorStatus(true);
     } finally {
       setIsLoading(() => false);
@@ -189,7 +193,10 @@ function App() {
       const res = await savedMoviesApi.savedMovie(movieCard);
       setSavedUserMovies([...savedUserMovies, res]);
     } catch (err) {
-      console.log(err);
+      if (err.status) {
+        handleLogOutUser();
+      }
+      console.log(err.message);
     }
   };
 
@@ -199,7 +206,10 @@ function App() {
       const afterDelMovie = savedUserMovies.filter((item) => item._id !== id);
       setSavedUserMovies(afterDelMovie);
     } catch (err) {
-      console.log(err);
+      if (err.status) {
+        handleLogOutUser();
+      }
+      console.log(err.message);
     }
   };
 
@@ -215,9 +225,12 @@ function App() {
         });
         setIsLoadingApp(false);
       } catch (err) {
+        if (err.status) {
+          handleLogOutUser();
+        }
         setIsLogged(false);
         navigate('/');
-        console.log(err);
+        console.log(err.message);
       }
     }
     setIsLoadingApp(false);
@@ -232,9 +245,7 @@ function App() {
         navigate('/movies');
       }
     } catch (err) {
-      const error = await err;
-      setAuthError(error);
-      console.log(err);
+      setAuthError(err.message);
     }
   };
 
@@ -244,13 +255,18 @@ function App() {
       handleAuthorizationUser(email, password);
     } catch (err) {
       setAuthError(err.message);
-      console.log(err.message);
     }
   };
 
   const handleLogOutUser = () => {
     setIsLogged(false);
     setUserInfo({});
+    setMovies([]);
+    setSearchedMovies('');
+    setIsFilteredMovies([]);
+    setSlicedMovies([]);
+    setSavedUserMovies([]);
+    setAuthError('');
     jwtToken.removeItemDataStorage();
     navigate('/');
   };
@@ -331,6 +347,7 @@ function App() {
                 <Register
                   authError={authError}
                   onRegisterUser={handleRegistrationUser}
+                  onSetAuthError={handleSetAuthError}
                 />
               }
             />
@@ -340,6 +357,7 @@ function App() {
                 <Login
                   authError={authError}
                   onAuthUser={handleAuthorizationUser}
+                  onSetAuthError={handleSetAuthError}
                 />
               }
             />

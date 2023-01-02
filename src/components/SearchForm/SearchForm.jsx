@@ -61,16 +61,10 @@ const SearchForm = ({
             name="search"
             placeholder="Фильм"
             required
-            // value={values.search && isSearch}
             value={isSearch || ''}
             onChange={handleChangleInput}
           />
-          {/* <span className="auth-form__error">{errors.search}</span> */}
-          <button
-            className="search-movies__button"
-            type="submit"
-            // disabled={!isValid}
-          />
+          <button className="search-movies__button" type="submit" />
         </fieldset>
         <div className="search-movies__checkbox-wrapper">
           <p className="search-movies__description">Короткометражки</p>

@@ -58,7 +58,7 @@ class Auth {
 }
 
 export const authApi = new Auth({
-  url: 'http://localhost:3001',
+  url: 'https://api.vden.movies.nomoredomains.club',
   headers: {
     'Content-Type': 'application/json',
   },

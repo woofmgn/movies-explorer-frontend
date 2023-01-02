@@ -1,14 +1,20 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
+import { REGEXP_EMAIL, REGEXP_NAME } from '../../utils/utils';
 import './Register.scss';
 
-const Register = ({ authError, onRegisterUser }) => {
+const Register = ({ authError, onRegisterUser, onSetAuthError }) => {
   const { values, handleChange, errors, isValid } = useFormAndValidation();
 
   const handlerSubmitRegister = (evt) => {
     evt.preventDefault();
     onRegisterUser(values.name, values.email, values.password);
   };
+
+  useEffect(() => {
+    onSetAuthError();
+  }, []);
 
   return (
     <main className="main main_type_user-profile">
@@ -28,6 +34,7 @@ const Register = ({ authError, onRegisterUser }) => {
             name="name"
             minLength="2"
             maxLength="30"
+            pattern={REGEXP_NAME}
             required
             value={values.name || ''}
             onChange={handleChange}
@@ -38,6 +45,7 @@ const Register = ({ authError, onRegisterUser }) => {
             className="auth-form__input auth-form__input_type_email popup__form-item"
             type="email"
             name="email"
+            pattern={REGEXP_EMAIL}
             required
             value={values.email || ''}
             onChange={handleChange}
