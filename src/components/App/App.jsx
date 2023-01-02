@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 
+import { ProtectedRoute } from '../../hoc/ProtectedRoute';
 import Login from '../../pages/Login/Login';
 import Main from '../../pages/Main/Main';
 import Movies from '../../pages/Movies/Movies';
@@ -21,11 +22,13 @@ import {
 
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
+import Preloader from '../Preloader/Preloader';
 
 function App() {
   let location = useLocation();
   const navigate = useNavigate();
   const [isLogged, setIsLogged] = useState(false);
+  const [isLoadingApp, setIsLoadingApp] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [movies, setMovies] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
@@ -210,12 +213,14 @@ function App() {
           name: res.name,
           email: res.email,
         });
+        setIsLoadingApp(false);
       } catch (err) {
         setIsLogged(false);
         navigate('/');
         console.log(err);
       }
     }
+    setIsLoadingApp(false);
   };
 
   const handleAuthorizationUser = async (email, password) => {
@@ -264,91 +269,104 @@ function App() {
 
   return (
     <>
-      <CurrentUserContext.Provider value={userInfo}>
-        {location.pathname === '/' ||
-        location.pathname === '/movies' ||
-        location.pathname === '/saved-movies' ||
-        location.pathname === '/profile' ? (
-          <Header isLogged={isLogged} />
-        ) : null}
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route
-            path="/movies"
-            element={
-              <Movies
-                movies={slicedMovies}
-                isChecked={isChecked}
-                isLoading={isLoading}
-                moviesInStorage={isFilteredMovies}
-                userMovies={savedUserMovies}
-                errorStatus={errorStatus}
-                onGetApiMovies={handleGetApiMovies}
-                onToggleCheckbox={handleToggleCheckbox}
-                onSearchMovies={handleSearchMovies}
-                onPaginateMovies={handlePaginationMovies}
-                onGetStorageData={handleGetStorageData}
-                onLikeMovie={handleLikeMovies}
-                onGetSavedMovies={handleGetSavedMovies}
-                onDislikeMovies={handleDislikeMovies}
-                onCheckBoxToggle={handleCheckBoxToggle}
-              />
-            }
-          />
-          <Route
-            path="/saved-movies"
-            element={
-              <SavedMovies
-                userMovies={savedUserMovies}
-                isChecked={isChecked}
-                errorStatus={errorStatus}
-                isLoading={isLoading}
-                onGetSavedMovies={handleGetSavedMovies}
-                onDislikeMovies={handleDislikeMovies}
-                onSetSavedUserMovies={handleSetSavedUserMovies}
-                onToggleCheckbox={handleToggleCheckbox}
-                onSetErrorStatus={handleSetErrorStatus}
-              />
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <Register
-                authError={authError}
-                onRegisterUser={handleRegistrationUser}
-              />
-            }
-          />
-          <Route
-            path="/signin"
-            element={
-              <Login
-                authError={authError}
-                onAuthUser={handleAuthorizationUser}
-              />
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <Profile
-                authError={authError}
-                onLogOutUser={handleLogOutUser}
-                onSetUserInfo={handleSetUserInfo}
-                onSetErrorInfo={handleSetAuthError}
-              />
-            }
-          />
-          <Route path="*" element={<PageNotFound />} />
-        </Routes>
+      {isLoadingApp ? (
+        <Preloader />
+      ) : (
+        <CurrentUserContext.Provider value={userInfo}>
+          {location.pathname === '/' ||
+          location.pathname === '/movies' ||
+          location.pathname === '/saved-movies' ||
+          location.pathname === '/profile' ? (
+            <Header isLogged={isLogged} />
+          ) : null}
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route
+              path="/movies"
+              element={
+                <ProtectedRoute isLogged={isLogged}>
+                  <Movies
+                    movies={slicedMovies}
+                    isChecked={isChecked}
+                    isLoading={isLoading}
+                    moviesInStorage={isFilteredMovies}
+                    userMovies={savedUserMovies}
+                    errorStatus={errorStatus}
+                    onGetApiMovies={handleGetApiMovies}
+                    onToggleCheckbox={handleToggleCheckbox}
+                    onSearchMovies={handleSearchMovies}
+                    onPaginateMovies={handlePaginationMovies}
+                    onGetStorageData={handleGetStorageData}
+                    onLikeMovie={handleLikeMovies}
+                    onGetSavedMovies={handleGetSavedMovies}
+                    onDislikeMovies={handleDislikeMovies}
+                    onCheckBoxToggle={handleCheckBoxToggle}
+                    onChechToken={handleChechToken}
+                  />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/saved-movies"
+              element={
+                <ProtectedRoute isLogged={isLogged}>
+                  <SavedMovies
+                    userMovies={savedUserMovies}
+                    isChecked={isChecked}
+                    errorStatus={errorStatus}
+                    isLoading={isLoading}
+                    onGetSavedMovies={handleGetSavedMovies}
+                    onDislikeMovies={handleDislikeMovies}
+                    onSetSavedUserMovies={handleSetSavedUserMovies}
+                    onToggleCheckbox={handleToggleCheckbox}
+                    onSetErrorStatus={handleSetErrorStatus}
+                    onChechToken={handleChechToken}
+                  />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <Register
+                  authError={authError}
+                  onRegisterUser={handleRegistrationUser}
+                />
+              }
+            />
+            <Route
+              path="/signin"
+              element={
+                <Login
+                  authError={authError}
+                  onAuthUser={handleAuthorizationUser}
+                />
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute isLogged={isLogged}>
+                  <Profile
+                    authError={authError}
+                    onLogOutUser={handleLogOutUser}
+                    onSetUserInfo={handleSetUserInfo}
+                    onSetErrorInfo={handleSetAuthError}
+                    onChechToken={handleChechToken}
+                  />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<PageNotFound />} />
+          </Routes>
 
-        {location.pathname === '/' ||
-        location.pathname === '/movies' ||
-        location.pathname === '/saved-movies' ? (
-          <Footer />
-        ) : null}
-      </CurrentUserContext.Provider>
+          {location.pathname === '/' ||
+          location.pathname === '/movies' ||
+          location.pathname === '/saved-movies' ? (
+            <Footer />
+          ) : null}
+        </CurrentUserContext.Provider>
+      )}
     </>
   );
 }
