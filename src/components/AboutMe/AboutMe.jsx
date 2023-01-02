@@ -1,4 +1,3 @@
-import React from 'react';
 import personalPhoto from '../../images/personal-foto.png';
 import './AboutMe.scss';
 

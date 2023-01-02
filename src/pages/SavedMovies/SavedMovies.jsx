@@ -1,4 +1,3 @@
-import React from 'react';
 import MoviesCardList from '../../components/MoviesCardList/MoviesCardList';
 import SearchForm from '../../components/SearchForm/SearchForm';
 import { savedMoviesApi } from '../../utils/MainApi';

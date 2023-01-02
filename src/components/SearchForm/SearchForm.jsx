@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { searchReqStorage } from '../../utils/storage';
-// import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './SearchForm.scss';
 
 const SearchForm = ({

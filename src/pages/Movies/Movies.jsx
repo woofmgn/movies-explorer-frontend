@@ -19,14 +19,12 @@ const Movies = ({
   userMovies,
   onDislikeMovies,
   onCheckBoxToggle,
-  onChechToken,
 }) => {
   const handlerPagitateMovies = () => {
     onPaginateMovies();
   };
 
   useEffect(() => {
-    // onChechToken();
     onGetStorageData();
     onGetApiMovies();
   }, []);

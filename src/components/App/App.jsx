@@ -317,7 +317,6 @@ function App() {
                     onGetSavedMovies={handleGetSavedMovies}
                     onDislikeMovies={handleDislikeMovies}
                     onCheckBoxToggle={handleCheckBoxToggle}
-                    onChechToken={handleChechToken}
                   />
                 </ProtectedRoute>
               }

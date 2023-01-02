@@ -1,4 +1,3 @@
-import React from 'react';
 import AboutMe from '../../components/AboutMe/AboutMe';
 import AboutProject from '../../components/AboutProject/AboutProject';
 import Portfolio from '../../components/Portfolio/Portfolio';
