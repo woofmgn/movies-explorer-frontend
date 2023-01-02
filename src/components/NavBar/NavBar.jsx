@@ -35,12 +35,26 @@ const NavBar = () => {
         >
           <ul className="navbar__container">
             <li className="navbar__item navbar__item_type_first">
-              <Link to="/movies" className="navbar__movies-link">
+              <Link
+                to="/movies"
+                className={`navbar__movies-link ${
+                  location.pathname === '/movies'
+                    ? 'navbar__movies-link_active'
+                    : null
+                }`}
+              >
                 Фильмы
               </Link>
             </li>
             <li className="navbar__item navbar__item_type_center">
-              <Link to="/saved-movies" className="navbar__movies-link">
+              <Link
+                to="/saved-movies"
+                className={`navbar__movies-link ${
+                  location.pathname === '/saved-movies'
+                    ? 'navbar__movies-link_active'
+                    : null
+                }`}
+              >
                 Сохранённые фильмы
               </Link>
             </li>
