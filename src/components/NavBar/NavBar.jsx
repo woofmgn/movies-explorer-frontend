@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
 import './NavBar.scss';
 
 const NavBar = () => {
+  const location = useLocation();
   const [isBurger, setIsBurger] = useState(false);
 
   const toggleBurger = () => {
@@ -27,7 +28,11 @@ const NavBar = () => {
       {isBurger ? (
         <BurgerMenu />
       ) : (
-        <nav className="navbar">
+        <nav
+          className={`navbar ${
+            location.pathname === '/' ? 'navbar_theme_green' : null
+          }`}
+        >
           <ul className="navbar__container">
             <li className="navbar__item navbar__item_type_first">
               <Link to="/movies" className="navbar__movies-link">

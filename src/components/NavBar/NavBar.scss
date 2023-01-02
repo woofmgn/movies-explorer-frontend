@@ -6,6 +6,10 @@
   align-items: center;
   background-color: #202020;
 
+  &_theme_green {
+    background-color: #073042;
+  }
+
   &__container {
     margin-right: 70px;
     display: flex;

@@ -7,13 +7,17 @@
   padding-bottom: 50px;
   margin: 0;
   display: grid;
-  justify-content: center;
-  // grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   grid-template-columns: repeat(auto-fit, 270px);
   gap: 38px 20px;
 
   &_type_saved-movies {
     padding-bottom: 240px;
+  }
+}
+
+@media screen and (max-width: 1279px) {
+  .movies-list {
+    justify-content: center;
   }
 }
 

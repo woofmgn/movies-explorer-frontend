@@ -20,9 +20,9 @@ const Movies = ({
   onDislikeMovies,
   onCheckBoxToggle,
 }) => {
-  const handlerGetApiMovies = () => {
-    onGetApiMovies();
-  };
+  // const handlerGetApiMovies = () => {
+  //   onGetApiMovies();
+  // };
 
   const handlerPagitateMovies = () => {
     onPaginateMovies();
@@ -30,7 +30,8 @@ const Movies = ({
 
   useEffect(() => {
     onGetStorageData();
-    handlerGetApiMovies();
+    // handlerGetApiMovies();
+    onGetApiMovies();
   }, []);
 
   useEffect(() => {

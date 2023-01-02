@@ -106,10 +106,13 @@ function App() {
     checkboxStatus.setDataStorage(isChecked);
   };
 
-  const handleCheckBoxToggle = () => {
+  const handleCheckBoxToggle = async () => {
     const searchReq = searchReqStorage.getDataStorage();
-    setSearchedMovies(searchReq);
-    filteredReqMovies(searchReq);
+    await checkboxStatus.getDataStorage();
+    if (movies.length) {
+      setSearchedMovies(searchReq);
+      filteredReqMovies(searchReq);
+    }
     checkboxStatus.setDataStorage(isChecked);
   };
 
