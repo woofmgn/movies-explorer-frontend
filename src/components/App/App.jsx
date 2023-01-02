@@ -85,12 +85,16 @@ function App() {
     setErrorStatus(status);
   };
 
+  const handleSetAuthError = (err) => {
+    setAuthError(err);
+  };
+
   const handleSetUserInfo = async (newInfo) => {
-    console.log(newInfo);
     try {
       const res = await authApi.editProfile(newInfo.name, newInfo.email);
       setUserInfo(res);
     } catch (err) {
+      setAuthError(err.message);
       console.log(err);
     }
   };
@@ -211,16 +215,6 @@ function App() {
     }
   };
 
-  const handleRegistrationUser = async (name, email, password) => {
-    try {
-      await authApi.register(name, email, password);
-      navigate('/signin');
-    } catch (err) {
-      setAuthError(err.message);
-      console.log(err.message);
-    }
-  };
-
   const handleAuthorizationUser = async (email, password) => {
     try {
       const res = await authApi.login(email, password);
@@ -236,6 +230,16 @@ function App() {
     }
   };
 
+  const handleRegistrationUser = async (name, email, password) => {
+    try {
+      await authApi.register(name, email, password);
+      handleAuthorizationUser(email, password);
+    } catch (err) {
+      setAuthError(err.message);
+      console.log(err.message);
+    }
+  };
+
   const handleLogOutUser = () => {
     setIsLogged(false);
     setUserInfo({});
@@ -245,7 +249,7 @@ function App() {
 
   useEffect(() => {
     handleChechToken();
-  }, []);
+  }, [isLogged]);
 
   useEffect(() => {
     window.addEventListener('resize', handlerToggleResize);
@@ -326,8 +330,10 @@ function App() {
             path="/profile"
             element={
               <Profile
+                authError={authError}
                 onLogOutUser={handleLogOutUser}
                 onSetUserInfo={handleSetUserInfo}
+                onSetErrorInfo={handleSetAuthError}
               />
             }
           />

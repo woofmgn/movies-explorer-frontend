@@ -1,31 +1,45 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
+import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './Profile.scss';
+const ERROR = 'Нельзя отправить старые данные';
 
-const Profile = ({ onLogOutUser, onSetUserInfo }) => {
+const Profile = ({
+  authError,
+  onLogOutUser,
+  onSetUserInfo,
+  onSetErrorInfo,
+}) => {
   const userInfo = useContext(CurrentUserContext);
-  const [userName, setUserName] = useState(userInfo.name);
-  const [userEmail, setUserEmail] = useState(userInfo.email);
+  const { values, handleChange, errors, isValid, setValues } =
+    useFormAndValidation();
 
   const handlerLogOutUser = () => {
     onLogOutUser();
   };
 
-  const handlerChangeUserName = (evt) => {
-    setUserName(evt.target.value);
-  };
-
-  const handlerChangeUserEmail = (evt) => {
-    setUserEmail(evt.target.value);
+  const handleCheckedPrevValue = () => {
+    if (values.name !== userInfo.name || values.email !== userInfo.email) {
+      onSetUserInfo({
+        name: values.name,
+        email: values.email,
+      });
+      onSetErrorInfo('');
+      return;
+    } else {
+      onSetErrorInfo(ERROR);
+    }
   };
 
   const handleSumbitSetUserInfo = (evt) => {
     evt.preventDefault();
-    onSetUserInfo({
-      name: userName,
-      email: userEmail,
-    });
+    handleCheckedPrevValue();
   };
+
+  useEffect(() => {
+    setValues({ name: userInfo.name, email: userInfo.email });
+    onSetErrorInfo('');
+  }, []);
 
   return (
     <main className="main main_type_user-profile">
@@ -36,27 +50,33 @@ const Profile = ({ onLogOutUser, onSetUserInfo }) => {
             Имя
             <input
               className="profile-form__input profile-form__input_type_email"
-              type="name"
+              type="text"
+              name="name"
               required
-              value={userName}
-              onChange={handlerChangeUserName}
+              value={values.name || ''}
+              onChange={handleChange}
             />
           </label>
 
-          <span className="profile-form__error"></span>
+          <span className="profile-form__error">{errors.name}</span>
           <label className="profile-form__label">
             Email
             <input
               className="profile-form__input profile-form__input_type_email"
               type="email"
+              name="email"
               required
-              value={userEmail}
-              onChange={handlerChangeUserEmail}
+              value={values.email || ''}
+              onChange={handleChange}
             />
           </label>
-
-          <span className="profile-form__error"></span>
-          <button className="profile-form__submit">Редактировать</button>
+          <span className="profile-form__error">{errors.email}</span>
+          <div className="profile-form__submit-container">
+            <span className="profile-form__submit-error">{authError}</span>
+            <button className="profile-form__submit" disabled={!isValid}>
+              Редактировать
+            </button>
+          </div>
         </form>
         <button className="logout-button" onClick={handlerLogOutUser}>
           Выйти из аккаунта
