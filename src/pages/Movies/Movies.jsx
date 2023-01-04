@@ -8,6 +8,7 @@ const Movies = ({
   isChecked,
   isLoading,
   errorStatus,
+  searcRequere,
   moviesInStorage,
   onToggleCheckbox,
   onSearchMovies,
@@ -40,15 +41,18 @@ const Movies = ({
         onToggleCheckbox={onToggleCheckbox}
         onSearchMovies={onSearchMovies}
       />
-      <MoviesCardList
-        movies={movies}
-        isLoading={isLoading}
-        errorStatus={errorStatus}
-        onLikeMovie={onLikeMovie}
-        onGetSavedMovies={onGetSavedMovies}
-        userMovies={userMovies}
-        onDislikeMovies={onDislikeMovies}
-      />
+
+      {searcRequere ? (
+        <MoviesCardList
+          movies={movies}
+          isLoading={isLoading}
+          errorStatus={errorStatus}
+          onLikeMovie={onLikeMovie}
+          onGetSavedMovies={onGetSavedMovies}
+          userMovies={userMovies}
+          onDislikeMovies={onDislikeMovies}
+        />
+      ) : null}
       {moviesInStorage.length !== movies.length &&
         moviesInStorage.length > 4 && (
           <button className="more-button" onClick={handlerPagitateMovies}>

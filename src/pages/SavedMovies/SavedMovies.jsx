@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import MoviesCardList from '../../components/MoviesCardList/MoviesCardList';
 import SearchForm from '../../components/SearchForm/SearchForm';
+import { TIME_DURATION } from '../../utils/constants';
 import { savedMoviesApi } from '../../utils/MainApi';
 
 const SavedMovies = ({
@@ -13,8 +15,14 @@ const SavedMovies = ({
   onToggleCheckbox,
   onSetErrorStatus,
 }) => {
+  const [userSearchReq, setUserSearchReq] = useState('');
+
   const handlerSetErrorStatus = (status) => {
     onSetErrorStatus(status);
+  };
+
+  const handleUserSearchReq = (search) => {
+    setUserSearchReq(search);
   };
 
   const handleSearchUserMovies = (reqSearch) => {
@@ -25,9 +33,9 @@ const SavedMovies = ({
       const titleEN = item.nameEN
         .toLowerCase()
         .includes(reqSearch.toLowerCase());
-      if (isChecked && item.duration <= 40) {
+      if (isChecked && item.duration <= TIME_DURATION) {
         return titleRU || titleEN;
-      } else if (!isChecked && item.duration > 40) {
+      } else if (!isChecked && item.duration > TIME_DURATION) {
         return titleRU || titleEN;
       }
     });
@@ -39,9 +47,9 @@ const SavedMovies = ({
     try {
       const res = await savedMoviesApi.getSavedMovies();
       const searched = res.filter((item) => {
-        if (!checkbox && item.duration <= 40) {
+        if (!checkbox && item.duration <= TIME_DURATION) {
           return item;
-        } else if (checkbox && item.duration > 40) {
+        } else if (checkbox && item.duration > TIME_DURATION) {
           return item;
         }
       });
@@ -55,18 +63,24 @@ const SavedMovies = ({
   return (
     <main className="movies-page">
       <SearchForm
-        onSearchUserMovies={handleSearchUserMovies}
+        userSearchReq={userSearchReq}
         onToggleCheckbox={onToggleCheckbox}
         isChecked={isChecked}
+        onUserSearchReq={handleUserSearchReq}
+        onSearchUserMovies={handleSearchUserMovies}
         onfilterUserMovie={filterUserMovie}
       />
-      <MoviesCardList
-        isLoading={isLoading}
-        userMovies={userMovies}
-        onGetSavedMovies={onGetSavedMovies}
-        onDislikeMovies={onDislikeMovies}
-        errorStatus={errorStatus}
-      />
+
+      {userMovies.length || userSearchReq ? (
+        <MoviesCardList
+          isLoading={isLoading}
+          userSearchReq={userSearchReq}
+          userMovies={userMovies}
+          onGetSavedMovies={onGetSavedMovies}
+          onDislikeMovies={onDislikeMovies}
+          errorStatus={errorStatus}
+        />
+      ) : null}
     </main>
   );
 };

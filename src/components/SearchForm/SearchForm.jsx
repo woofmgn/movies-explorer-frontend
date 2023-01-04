@@ -9,8 +9,11 @@ const SearchForm = ({
   onSearchMovies,
   onSearchUserMovies,
   onfilterUserMovie,
+  onUserSearchReq,
+  userSearchReq,
 }) => {
   const [isSearch, setSearch] = useState('');
+  const [userCheckBox, setUserCheckBox] = useState(false);
   const location = useLocation();
 
   const handleToggleCheckbox = () => {
@@ -21,6 +24,10 @@ const SearchForm = ({
     setSearch(evt.target.value);
   };
 
+  const handleChangeUserMovieInput = (evt) => {
+    onUserSearchReq(evt.target.value);
+  };
+
   const handlerSumbit = (evt) => {
     evt.preventDefault();
     onSearchMovies(isSearch);
@@ -28,18 +35,20 @@ const SearchForm = ({
 
   const handleSumbitUserSearch = (evt) => {
     evt.preventDefault();
-    onSearchUserMovies(isSearch);
+    onSearchUserMovies(userSearchReq);
   };
 
   const handleToggleUserCheckbox = () => {
-    onToggleCheckbox();
-    onfilterUserMovie(isChecked);
+    setUserCheckBox((prev) => !prev);
+    onfilterUserMovie(userCheckBox);
   };
 
   useEffect(() => {
-    const prevSearch = searchReqStorage.getDataStorage();
-    if (prevSearch) {
-      setSearch(prevSearch);
+    if (location.pathname === '/movies') {
+      const prevSearch = searchReqStorage.getDataStorage();
+      if (prevSearch) {
+        setSearch(prevSearch);
+      }
     }
   }, []);
 
@@ -60,8 +69,12 @@ const SearchForm = ({
             name="search"
             placeholder="Фильм"
             required
-            value={isSearch || ''}
-            onChange={handleChangleInput}
+            value={location.pathname === '/movies' ? isSearch : userSearchReq}
+            onChange={
+              location.pathname === '/movies'
+                ? (evt) => handleChangleInput(evt)
+                : (evt) => handleChangeUserMovieInput(evt)
+            }
           />
           <button className="search-movies__button" type="submit" />
         </fieldset>
@@ -71,7 +84,9 @@ const SearchForm = ({
             <input
               type="checkbox"
               className="search-movies__checkbox"
-              checked={isChecked}
+              checked={
+                location.pathname === '/movies' ? isChecked : userCheckBox
+              }
               onChange={
                 location.pathname === '/movies'
                   ? () => handleToggleCheckbox()

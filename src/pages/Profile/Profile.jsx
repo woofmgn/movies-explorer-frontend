@@ -1,7 +1,11 @@
 import { useContext, useEffect } from 'react';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
-import { REGEXP_EMAIL, REGEXP_NAME } from '../../utils/constants';
+import {
+  MESSAGE_EDIT_COMPLETE,
+  REGEXP_EMAIL,
+  REGEXP_NAME,
+} from '../../utils/constants';
 import './Profile.scss';
 const ERROR = 'Нельзя отправить старые данные';
 
@@ -75,7 +79,15 @@ const Profile = ({
           </label>
           <span className="profile-form__error">{errors.email}</span>
           <div className="profile-form__submit-container">
-            <span className="profile-form__submit-error">{authError}</span>
+            <span
+              className={`profile-form__submit-error ${
+                authError === MESSAGE_EDIT_COMPLETE
+                  ? 'profile-form__submit-error_type_complete'
+                  : null
+              }`}
+            >
+              {authError}
+            </span>
             <button className="profile-form__submit" disabled={!isValid}>
               Редактировать
             </button>

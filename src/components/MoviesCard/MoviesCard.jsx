@@ -79,9 +79,12 @@ const MoviesCard = ({
   };
 
   const handleCalculateDuration = (data) => {
+    const oneHour = 60;
     const time = {
-      hour: `${Math.floor(data / 60) ? Math.floor(data / 60) + ' ч.' : ''}`,
-      minutes: `${data % 60 ? (data % 60) + ' мин.' : ''}`,
+      hour: `${
+        Math.floor(data / oneHour) ? Math.floor(data / oneHour) + ' ч.' : ''
+      }`,
+      minutes: `${data % oneHour ? (data % oneHour) + ' мин.' : ''}`,
     };
     return time;
   };

@@ -307,6 +307,7 @@ function App() {
                     moviesInStorage={isFilteredMovies}
                     userMovies={savedUserMovies}
                     errorStatus={errorStatus}
+                    searcRequere={searchedMovies}
                     onGetApiMovies={handleGetApiMovies}
                     onToggleCheckbox={handleToggleCheckbox}
                     onSearchMovies={handleSearchMovies}
