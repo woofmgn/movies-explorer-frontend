@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
 import './Login.scss';
 
-const Login = ({ onAuthUser, authError, onSetAuthError }) => {
+const Login = ({ isLogged, onAuthUser, authError, onSetAuthError }) => {
+  const navigate = useNavigate();
   const { values, handleChange, errors, isValid } = useFormAndValidation();
 
   const handlerSubmitAuthUser = (evt) => {
@@ -12,8 +13,11 @@ const Login = ({ onAuthUser, authError, onSetAuthError }) => {
   };
 
   useEffect(() => {
+    if (isLogged) {
+      navigate(-1);
+    }
     onSetAuthError('');
-  }, []);
+  }, [isLogged]);
 
   return (
     <main className="main main_type_user-profile">

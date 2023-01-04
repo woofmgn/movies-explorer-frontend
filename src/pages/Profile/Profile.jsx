@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import { CurrentUserContext } from '../../context/CurrentUserContext';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
-import { REGEXP_EMAIL, REGEXP_NAME } from '../../utils/utils';
+import { REGEXP_EMAIL, REGEXP_NAME } from '../../utils/constants';
 import './Profile.scss';
 const ERROR = 'Нельзя отправить старые данные';
 
@@ -45,7 +45,7 @@ const Profile = ({
   return (
     <main className="main main_type_user-profile">
       <section className="auth profile">
-        <h3 className="profile__title">Добро пожаловать</h3>
+        <h3 className="profile__title">Привет, {userInfo.name}!</h3>
         <form className="profile-form" onSubmit={handleSumbitSetUserInfo}>
           <label className="profile-form__label">
             Имя

@@ -11,6 +11,13 @@ import Profile from '../../pages/Profile/Profile';
 import Register from '../../pages/Register/Register';
 import SavedMovies from '../../pages/SavedMovies/SavedMovies';
 import { authApi } from '../../utils/Auth';
+import {
+  DESKTOP_CARD_QUANTITY,
+  MESSAGE_EDIT_COMPLETE,
+  MOBILE_CARD_QUANTITY,
+  TABLET_CARD_QUANTITY,
+  TIME_DURATION,
+} from '../../utils/constants';
 import { savedMoviesApi } from '../../utils/MainApi';
 import { apiMovies } from '../../utils/MoviesApi';
 import {
@@ -37,10 +44,7 @@ function App() {
   const [slicedMovies, setSlicedMovies] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [savedUserMovies, setSavedUserMovies] = useState([]);
-  const [resizeState, setResizeState] = useState({
-    cards: 16,
-    more: 4,
-  });
+  const [resizeState, setResizeState] = useState(DESKTOP_CARD_QUANTITY);
   const [errorStatus, setErrorStatus] = useState(false);
   const [authError, setAuthError] = useState('');
 
@@ -59,20 +63,11 @@ function App() {
 
   const handlerToggleResize = () => {
     if (window.innerWidth > 1280) {
-      setResizeState({
-        cards: 16,
-        more: 4,
-      });
+      setResizeState(DESKTOP_CARD_QUANTITY);
     } else if (window.innerWidth < 1280 && window.innerWidth > 768) {
-      setResizeState({
-        cards: 12,
-        more: 3,
-      });
+      setResizeState(TABLET_CARD_QUANTITY);
     } else if (window.innerWidth <= 768) {
-      setResizeState({
-        cards: 5,
-        more: 2,
-      });
+      setResizeState(MOBILE_CARD_QUANTITY);
     }
   };
 
@@ -96,6 +91,7 @@ function App() {
     try {
       const res = await authApi.editProfile(newInfo.name, newInfo.email);
       setUserInfo(res);
+      setAuthError(MESSAGE_EDIT_COMPLETE);
     } catch (err) {
       if (err.status) {
         handleLogOutUser();
@@ -144,9 +140,9 @@ function App() {
         const titleEN = item.nameEN
           .toLowerCase()
           .includes(searchReq.toLowerCase());
-        if (isChecked && item.duration <= 40) {
+        if (isChecked && item.duration <= TIME_DURATION) {
           return titleRU || titleEN;
-        } else if (!isChecked && item.duration > 40) {
+        } else if (!isChecked && item.duration > TIME_DURATION) {
           return titleRU || titleEN;
         }
       });
@@ -268,6 +264,9 @@ function App() {
     setSavedUserMovies([]);
     setAuthError('');
     jwtToken.removeItemDataStorage();
+    moviesStorage.removeItemDataStorage();
+    searchReqStorage.removeItemDataStorage();
+    checkboxStatus.removeItemDataStorage();
     navigate('/');
   };
 
@@ -344,6 +343,7 @@ function App() {
               path="/signup"
               element={
                 <Register
+                  isLogged={isLogged}
                   authError={authError}
                   onRegisterUser={handleRegistrationUser}
                   onSetAuthError={handleSetAuthError}
@@ -354,6 +354,7 @@ function App() {
               path="/signin"
               element={
                 <Login
+                  isLogged={isLogged}
                   authError={authError}
                   onAuthUser={handleAuthorizationUser}
                   onSetAuthError={handleSetAuthError}

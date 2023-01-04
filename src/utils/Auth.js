@@ -60,6 +60,7 @@ class Auth {
 export const authApi = new Auth({
   url: 'https://api.vden.movies.nomoredomains.club',
   headers: {
+    Accept: 'application/json',
     'Content-Type': 'application/json',
   },
 });

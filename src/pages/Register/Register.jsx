@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFormAndValidation } from '../../hooks/useFormAndValidation';
-import { REGEXP_EMAIL, REGEXP_NAME } from '../../utils/utils';
+import { REGEXP_EMAIL, REGEXP_NAME } from '../../utils/constants';
 import './Register.scss';
 
-const Register = ({ authError, onRegisterUser, onSetAuthError }) => {
+const Register = ({ isLogged, authError, onRegisterUser, onSetAuthError }) => {
+  const navigate = useNavigate();
   const { values, handleChange, errors, isValid } = useFormAndValidation();
 
   const handlerSubmitRegister = (evt) => {
@@ -13,8 +14,11 @@ const Register = ({ authError, onRegisterUser, onSetAuthError }) => {
   };
 
   useEffect(() => {
-    onSetAuthError();
-  }, []);
+    if (isLogged) {
+      navigate(-1);
+    }
+    onSetAuthError('');
+  }, [isLogged]);
 
   return (
     <main className="main main_type_user-profile">
