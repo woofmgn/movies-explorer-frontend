@@ -1,11 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import NavBar from '../NavBar/NavBar';
 import './Header.scss';
 
-const Header = ({ isLogged }) => {
+const Header = React.memo(({ isLogged }) => {
+  const location = useLocation();
+
   return (
-    <header className={`header ${isLogged ? 'header_theme_dark' : null}`}>
+    <header
+      className={`header ${
+        isLogged && location.pathname !== '/' ? 'header_theme_dark' : null
+      }`}
+    >
       <Link className="header__main-link" to="/" />
       {isLogged ? (
         <NavBar />
@@ -32,6 +38,6 @@ const Header = ({ isLogged }) => {
       )}
     </header>
   );
-};
+});
 
 export default Header;
