@@ -1,9 +1,26 @@
-# Getting Started with Create React App
+### Приложение для поиска и сохранения понравившихся фильмов, является дипломным проектом на курсе Веб-разработки от Яндекс Практикума.
 
-Ссылка на PR https://github.com/woofmgn/movies-explorer-frontend/pull/2
+##### Реализованный функциона:
 
-Ссылка на макет https://disk.yandex.ru/d/MpFO8iMGwM1WQg
+- Регистрация, авторизация пользователя, редактирование профиля (взаимодействие просходит с собственным бекендом на express.js)
+- Поиск фильмов по названию, фильтрация по продолжительности (взаимодействие со сторонним API).
+- Фильтрация, пагинация и поиск реализованы на фронтенде, согласно условий технического задания к дипломному проекту. Сохранение понравившихся фильмов и их удаление.
+- Валидация форм производится за счет кастомного хука.
+- Адаптивная верстка.
 
-Фронтенд https://vden.movies.nomoredomains.club/
+##### Стек
 
-Бэк https://api.vden.movies.nomoredomains.club
+- React 18.2
+- React-Router 6.4.3
+- HTML 5
+- CSS 3
+
+#### Установка
+
+- Клонировать репозиторий: git clone https://github.com/Andryuha-Nikolaev/movies-explorer-frontend.git
+- Установить зависимости: npm install
+- Запустить сервер: npm run start
+
+Демо проекта https://vden.movies.nomoredomains.club/
+
+Бэкенд https://api.vden.movies.nomoredomains.club (репозиторий https://github.com/woofmgn/movies-explorer-api)
