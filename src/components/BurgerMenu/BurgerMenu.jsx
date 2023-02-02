@@ -6,7 +6,8 @@ const BurgerMenu = () => {
   const [isOpenMenu, setIsOpenMenu] = useState();
   const location = useLocation();
 
-  const handleToggleOpenMenu = () => {
+  const handleToggleOpenMenu = (evt) => {
+    evt.stopPropagation();
     setIsOpenMenu((prev) => !prev);
   };
 
@@ -14,7 +15,7 @@ const BurgerMenu = () => {
     <>
       <button className="burger-button" onClick={handleToggleOpenMenu} />
       {isOpenMenu && (
-        <div className="burger-container">
+        <div className="burger-container" onClickCapture={handleToggleOpenMenu}>
           <nav className="burger-menu">
             <button
               className="burger-menu__close-button"
