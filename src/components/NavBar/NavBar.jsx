@@ -16,6 +16,7 @@ const NavBar = () => {
   };
 
   useEffect(() => {
+    toggleBurger();
     window.addEventListener('resize', toggleBurger);
 
     return () => {
