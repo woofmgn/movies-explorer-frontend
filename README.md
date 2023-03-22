@@ -17,7 +17,7 @@
 
 #### Установка
 
-- Клонировать репозиторий: git clone https://github.com/Andryuha-Nikolaev/movies-explorer-frontend.git
+- Клонировать репозиторий: git clone git@github.com:woofmgn/movies-explorer-frontend.git
 - Установить зависимости: npm install
 - Запустить сервер: npm run start
 
